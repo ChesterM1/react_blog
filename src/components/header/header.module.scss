@@ -1,0 +1,47 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    // padding: 0 10px;
+   h2{
+    color: rgb(58, 202, 212);
+    font-size: 30px;
+    font-weight: 700;
+   }
+
+}
+
+.auth{
+    display: flex;
+    justify-content: space-between;
+    gap: 0 10px;
+    align-items: center;
+}
+
+.login{
+    font-size: 16px;
+    height: 35px;
+}
+
+.register{
+    padding: 0 40px;
+    font-size: 16px;
+    height: 35px;
+}
+
+@media(max-width: 1200px){
+    .header{
+        padding: 0 10px;
+    }
+    
+}
+
+@media(max-width: 400px){
+    .auth{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .login{
+        width: 92px;
+    }
+}
