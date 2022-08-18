@@ -1,0 +1,18 @@
+.register{
+    max-width: 600px;
+    min-width: 300px;
+    margin: 100px auto;
+    .avatar{
+        margin: 0 auto;
+        span{
+            display: block;
+            margin: 0 auto;
+            span{
+                display: flex;
+                padding-top: 15px;
+                justify-content: center;
+            }
+
+        }
+    }
+}

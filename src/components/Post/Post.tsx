@@ -3,22 +3,33 @@ import wiew from '../../img/view.svg';
 import comment from '../../img/comments.svg';
 import heartRed from '../../img/heart-svgrepo-com .svg';
 import heart from '../../img/heart.svg';
-import moment from "moment";
+import edit from '../../img/pencil.png';
+import remove from '../../img/remove.png';
+import Commentaries from "../Commentaries/Commentaries";
+
+
 
 
 const Post = () => {
 
    const time = ()=>{
-    moment().format('YYYY-MM-DD HH:mm:ss');
-    return moment().fromNow();
+        const date = new Date().getTime();
+        
+        const neww = new Date(date)
+    return neww.toString();
    }
     return (
         <section className={styles.post}>
-            <img
-                src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg"
-                alt="post pic"
-            />
-            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
+            <div>
+                <img
+                    src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg"
+                    alt="post pic"
+                />
+                <div className={styles.title}>
+                    <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
+                </div>
+
+            </div>
             <div className={styles.text}>
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -41,7 +52,7 @@ const Post = () => {
                     </a>
                 </ul>
             </div>
-            <div className={styles.botoom}>
+            <div className={styles.bottom}>
                 <div className={styles.right}>
                     <div>
                         <img src={wiew} alt="view"/>
@@ -57,7 +68,25 @@ const Post = () => {
                     </div>
                 </div>
                 <div>
-                    <span>{time()}</span>
+                    <span className={styles.time}>2 hours ago</span>
+                </div>
+            </div>
+            {true && <div className={styles.edit}>
+                <div>
+                    <img src={edit} alt="edit icon" />
+                    <img src={remove} alt="remove icon" />
+                </div>
+            </div>}
+            <div className={styles.commentBlock}>
+                <div className={styles.one}></div>
+                <div className={styles.two}></div>
+                <div className={styles.three}>
+                    <Commentaries/>
+                    <Commentaries/>
+                    <Commentaries/>
+                    <button>
+                       <span>Load more</span>
+                    </button>
                 </div>
             </div>
         </section>

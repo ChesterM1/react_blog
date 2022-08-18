@@ -1,5 +1,8 @@
 import styles from './miniPosts.module.scss';
-import view from '../../img/view.svg'
+import heart from '../../img/heart.svg';
+import wiew from '../../img/view.svg';
+import comment from '../../img/comments.svg';
+import heartRed from '../../img/heart-svgrepo-com .svg';
 
 const MiniPosts = ()=>{
 
@@ -11,10 +14,20 @@ const MiniPosts = ()=>{
                 </div>
                 <div>
                     
-                    <div className={styles.view}>
-                        <img src={view} alt="view icon" />
-                        <span>0</span>
+                <div className={styles.right}>
+                    <div>
+                        <img src={wiew} alt="view"/>
+                        <span>0</span> 
                     </div>
+                    <div>
+                    <img src={comment} alt="comment"/>
+                        <span>0</span> 
+                    </div>
+                    <div>
+                    <img src={heart} className={styles.heart} alt="comment"/>
+                    <span>1.2k</span>
+                    </div>
+                </div>
                 </div>
             </div>
     )

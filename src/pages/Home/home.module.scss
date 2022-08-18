@@ -9,11 +9,12 @@
 
     .bar{
         max-width: 30%;
-        margin-top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
     }
 
     .comment__bar{
-        margin-top: 30px;
         h3{
             font-size: 30px;
             color: #676666c0;
@@ -33,14 +34,58 @@
     }
 
     .mini__posts{
-        margin-top: 30px;
         box-shadow: 0 10px 20px rgba(145, 143, 143, 0.586);
         border-radius: 5px;
-        padding: 0 10px;
+        padding: 25px 10px;
         h3{
             font-size: 30px;
             color: #676666c0;
             text-align: center;
+        }
+    }
+    nav{
+        display: none;
+        margin-bottom: 30px;
+        ul{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            :last-child{
+                border-bottom: none;
+            }
+            li{
+                font-size: 24px;
+                border-bottom: 2px solid #5d6771;
+                padding: 0 5px 5px 5px;
+                font-weight: 700;
+                color:#5d6771;
+
+                
+            }
+        }
+    }
+    .active{
+        color:#80b1e2;
+        border-color: #80b1e2;
+    }
+}
+
+@media(max-width: 720px){
+    .main{
+        .bar{
+            display: none;
+        }
+        .post__wrapper{
+            max-width: 100%;
+            padding: 15px;
+        }
+        nav{
+            display: block;
+            ul{
+                li{
+                    font-size: 18px;
+                }
+            }
         }
     }
 }

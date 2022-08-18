@@ -29,3 +29,14 @@
         border-bottom: 2px solid #67666698;
     }
 }
+
+@media(max-width: 1185px){
+    .tagsBar{
+        ul{
+            justify-content: center;
+            li{
+                font-size: 16px;
+            }
+        }
+    }
+}

@@ -1,67 +1,60 @@
-import styles from './home.module.scss'; 
-import Header from "../../components/header/Header";
+import styles from "./home.module.scss";
+import Header from "../../components/Header/Header";
 import TagsBar from "../../components/TagsBar/TagsBar";
-import Commentaries from '../../components/Commentaries/Commentaries';
-import Post from '../../components/Post/Post';
-import { Tabs } from 'antd';
-import MiniPosts from '../../components/MiniPosts/MiniPosts';
+import Commentaries from "../../components/Commentaries/Commentaries";
+import Post from "../../components/Post/Post";
+import MiniPosts from "../../components/MiniPosts/MiniPosts";
+import { useEffect, useState } from "react";
+import CreatePostButton from "../../components/Post/CreatePostButton/CreatePostButton";
+import MobileBar from "../../components/MobileBar/MobileBar";
+import axios from "axios";
 
+const Home: React.FC = () => {
+    const [login, setLogin] = useState<any>();
+    useEffect(() => {
+        axios
+            .get("https://node-blog-api2.herokuapp.com/posts")
+            .then((res) => setLogin(res.data));
+    }, []);
+    console.log(login);
 
-const { TabPane } = Tabs;
-
-const Home = ()=>{
-
-    return(
-       <>
-            <Header/>
-           <div className={styles.main}>
-               <div className={styles.post__wrapper}>
-               <Tabs size='large' destroyInactiveTabPane={true}>   
-                    <TabPane tab={<NewPostTitle/>} key="1">
-                            {[...new Array(5)].map((item, i)=> <Post key={i}/>)}
-                    </TabPane>
-                    <TabPane tab={<PopularPostTitle/>} key="2">
-                        {[...new Array(2)].map((item, i)=> <Post key={i}/>)}
-                    </TabPane>   
-                </Tabs> 
+    return (
+        <>
+            <Header />
+            <div className={styles.main}>
+                <div className={styles.post__wrapper}>
+                    <nav>
+                        <ul>
+                            <li className={styles.active}>New Post</li>
+                            <li>Popular Post</li>
+                        </ul>
+                    </nav>
+                    <div className={styles.new}>
+                        {[...new Array(5)].map((item, i) => (
+                            <Post key={i} />
+                        ))}
+                    </div>
+                    <div className={styles.popular}></div>
+                </div>
+                <div className={styles.bar}>
                     
-
-               </div>
-               <div className={styles.bar}>
-                    <TagsBar/>
+                        
+                        <TagsBar />
+                    
                     <div className={styles.mini__posts}>
-                        <h3 >Popular posts</h3>
-                        <MiniPosts/>
-                        <MiniPosts/>
-                        <MiniPosts/>
+                        <h3>Popular posts</h3>
+                        <MiniPosts />
+                        <MiniPosts />
+                        <MiniPosts />
                     </div>
                     <div className={styles.comment__bar}>
                         <h3>Last comments</h3>
-                        <Commentaries/>
-                        <Commentaries/>
+                        <Commentaries />
+                        <Commentaries />
                     </div>
-               </div>
-               
-           </div>
-           
+                </div>
+            </div>
         </>
-    )
-}
+    );
+};
 export default Home;
-
-const NewPostTitle = ()=>{
-    return (
-        <h3 className={styles.tab}>
-            New post 
-        </h3>
-    )
-}
-
-const PopularPostTitle = ()=>{
-    return (
-        <h3 className={styles.tab}>
-            PopularPostTitle 
-        </h3>
-    )
-}
-

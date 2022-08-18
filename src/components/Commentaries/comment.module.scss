@@ -1,7 +1,10 @@
-.like{
-    margin-left: 5px;
-}
+.comment{
+    @apply my-5 px-2;
 
-.dislike{
-    margin-left: 5px;
+    .text{
+        @apply p-3 font-light text-sm text-gray-500;
+    }
+    .date{
+        @apply text-end text-gray-300 text-xs;
+    }
 }

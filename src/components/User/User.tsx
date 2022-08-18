@@ -1,13 +1,17 @@
-import { UserOutlined } from '@ant-design/icons/lib/icons';
-import { Avatar } from 'antd';
+import userIcon from '../../img/user.png';
 import styles from './user.module.scss';
 
-const User = ()=>{
+
+interface propsInterface {
+    size?: number;
+
+}
+const User: React.FC = ()=>{
 
     return(
         <div className={styles.user}>
             <div>
-                <Avatar size={64} icon={<UserOutlined />} />
+               <img src={userIcon} alt="user icon" />
                 <div className={styles.userName}>Joe Jordison</div>
             </div>
 

@@ -1,0 +1,14 @@
+.user{
+    // @apply w-10;
+    div{
+        @apply flex items-center gap-2 ;
+        img{
+            @apply w-12 object-cover h-12;
+        }
+        div{
+            @apply text-slate-400 font-light
+        }
+        
+
+    }
+}

@@ -1,19 +1,30 @@
 import styles from './header.module.scss';
-import {Button} from 'antd';
-import { UserAddOutlined, UserOutlined } from '@ant-design/icons';
+import icon from '../../img/electric-car.png';
+import {Link} from 'react-router-dom';
+import NoLoginBlock from './NoLoginBlock/NoLoginBlock';
+import Authorized from './Authorized/Authorized';
 
-
-const Header = ()=>{
+interface Iinterface {
+    props?: ()=> void;
+}
+const Header: React.FC<Iinterface> = (props)=>{
+console.log(props);
 
 
 
     return(
         <div className={styles.header} >
-            <h2>React Blog</h2>
-            <div className={styles.auth}>
-                <Button className={styles.login} type="ghost"  icon={<UserOutlined />}>Login</Button>
-                <Button className={styles.register} type="primary" icon={<UserAddOutlined />}>Sign up</Button>
+            <Link to='/'><div className={styles.logo}>
+            <div className={styles.img}>
+                <img src={icon} alt="car Logo" />      
             </div>
+            <h2> React Blog</h2>
+            </div>
+            </Link>
+            
+                {/* <NoLoginBlock/> */}
+                <Authorized/>
+            
         </div>
     )
 };
