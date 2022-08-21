@@ -22,8 +22,8 @@ console.log(props);
             </div>
             </Link>
             
-                {/* <NoLoginBlock/> */}
-                <Authorized/>
+                <NoLoginBlock/>
+                {/* <Authorized/> */}
             
         </div>
     )

@@ -43,3 +43,14 @@
         }
     }
 }
+
+@media(max-width: 750px){
+    .mini__posts{
+        .mini__img{
+            h5{
+                font-size: 14px;
+            }
+
+        }
+    }
+}

@@ -1,15 +1,16 @@
 import styles from "./post.module.scss";
 import wiew from '../../img/view.svg';
 import comment from '../../img/comments.svg';
-import heartRed from '../../img/heart-svgrepo-com .svg';
+// import heartRed from '../../img/heart-svgrepo-com .svg';
 import heart from '../../img/heart.svg';
 import edit from '../../img/pencil.png';
 import remove from '../../img/remove.png';
 import Commentaries from "../Commentaries/Commentaries";
+import User from "../User/User";
 
 
 
-
+const active = 'active'
 const Post = () => {
 
    const time = ()=>{
@@ -19,12 +20,17 @@ const Post = () => {
     return neww.toString();
    }
     return (
+
+        
         <section className={styles.post}>
             <div>
                 <img
                     src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg"
                     alt="post pic"
                 />
+                 <div className={styles.author}>
+                <User/>
+                </div>
                 <div className={styles.title}>
                     <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
                 </div>
@@ -78,18 +84,16 @@ const Post = () => {
                 </div>
             </div>}
             <div className={styles.commentBlock}>
-                <div className={styles.one}></div>
-                <div className={styles.two}></div>
-                <div className={styles.three}>
                     <Commentaries/>
                     <Commentaries/>
                     <Commentaries/>
-                    <button>
-                       <span>Load more</span>
+                    <button className={styles.button}>
+                       Load more
                     </button>
-                </div>
+                
             </div>
         </section>
+    
     );
 };
 export default Post;

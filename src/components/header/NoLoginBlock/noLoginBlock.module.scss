@@ -1,4 +1,6 @@
 .block{
+    min-width: 147px;
+    padding: 0 10px;
     button{
         padding: 10px 20px;
         border: none;
@@ -8,6 +10,7 @@
         font-size: 18px;
         font-weight: 600;
         transition: all 0.4s;
+        width: 100%;
         &:hover{
             transform: scale(1.1);
         }
@@ -20,6 +23,7 @@
     .register{
         background-color: rgb(18, 155, 173);
         color: #fff;
+        border: 1px solid rgb(18, 155, 173);
     }
 }
 

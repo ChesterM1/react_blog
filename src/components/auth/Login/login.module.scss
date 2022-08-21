@@ -1,0 +1,34 @@
+.login{
+    @apply w-80 px-2.5 py-10 shadow-xl m-auto mt-32;
+    .img{
+        @apply w-40 m-auto mb-5;
+    }
+    .wrapper{
+        @apply m-auto flex-col;
+    }
+    form{
+       @apply px-2.5; 
+    }
+
+    button{
+        @apply block w-full mt-10 rounded-lg py-1 font-bold
+        bg-green-500 border-none text-white transition-colors;
+        &:hover{
+            @apply bg-green-600;
+        }
+    }
+}
+
+@media(max-width: 720px) {
+    .login{
+        @apply mt-5;
+        // margin-top: 0;
+        // height: 40vh;
+    }
+}
+
+@media(max-width: 576px){
+    .login{
+        @apply mt-1;
+    }
+}
