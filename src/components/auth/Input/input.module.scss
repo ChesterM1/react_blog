@@ -19,8 +19,8 @@
          }
         }
     img{
-           @apply w-4 absolute cursor-pointer opacity-60;
-           top: 14px;
+           @apply w-4 absolute cursor-pointer opacity-60 py-3;
+           top: 2px;
            right: 15px; 
         }
 

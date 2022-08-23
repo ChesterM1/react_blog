@@ -8,14 +8,36 @@
     }
     form{
        @apply px-2.5; 
+
+       .serverError{
+        @apply bg-red-200 border-2 border-red-400 rounded-xl px-2 py-3 text-red-700
+        flex justify-between;
+        span{
+            @apply cursor-pointer;
+        }
+       }
+       p{
+        @apply py-2 text-red-400;
+       }
     }
+    
 
     button{
-        @apply block w-full mt-10 rounded-lg py-1 font-bold
-        bg-green-500 border-none text-white transition-colors;
+        @apply block  w-full mt-10 rounded-lg py-1 font-bold
+        bg-green-500 border-none text-white transition-colors relative;
+        img{
+            @apply absolute;
+            left: 85px;
+        }
         &:hover{
             @apply bg-green-600;
         }
+        &:disabled{
+            @apply  bg-green-700;
+        }
+    }
+    .spinner{
+        @apply h-6 ;
     }
 }
 

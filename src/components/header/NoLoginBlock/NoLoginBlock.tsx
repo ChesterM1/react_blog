@@ -8,7 +8,10 @@ const NoLoginBlock = ()=>{
             <Link to='/login'>
                 <button className={styles.login}>Log In</button>
             </Link>
-            <button className={styles.register}>Sign Up</button>
+            <Link to='/register'>
+                <button className={styles.register}>Sign Up</button>
+
+            </Link>
         </div>
     )
 }

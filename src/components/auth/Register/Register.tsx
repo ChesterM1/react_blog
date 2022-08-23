@@ -1,6 +1,7 @@
 import styles from './register.module.scss';
 import User from '../../User/User';
 import { useRef } from "react";
+import Header from '../../Header/Header';
 
 type refType = {
     current: HTMLInputElement | null;
@@ -30,7 +31,6 @@ const Register = () => {
     };
     return (
         <div>
-
         </div>
     )
 
