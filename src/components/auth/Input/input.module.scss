@@ -1,27 +1,33 @@
-.inputBlock{
+.inputBlock {
     @apply mt-10 relative;
-    label{
-        @apply block text-left text-lg text-slate-500
-        font-bold px-7 z-10 absolute;
+
+    label {
+        @apply block text-left text-lg text-slate-500 font-bold px-7 z-10 absolute;
         bottom: 7px;
         transition: all 0.4s;
+
+        span {
+            @apply text-red-600;
+        }
     }
-    input{
-        @apply  text-lg text-slate-700
-        border-none bg-slate-200 py-2 px-6
-        outline-none rounded-md w-full font-bold z-0;
-         
-         &:focus{
+
+    input {
+        @apply text-lg text-slate-700 border-none bg-slate-200 outline-none py-2 px-6 rounded-md w-full font-bold z-0;
+
+        &:focus {
             @apply bg-slate-300;
-            label{
+
+            label {
                 bottom: 43px;
             }
-         }
         }
-    img{
-           @apply w-4 absolute cursor-pointer opacity-60 py-3;
-           top: 2px;
-           right: 15px; 
-        }
+
+    }
+
+    img {
+        @apply w-4 absolute cursor-pointer opacity-60 py-3;
+        top: 2px;
+        right: 15px;
+    }
 
 }

@@ -1,18 +1,37 @@
-.register{
-    max-width: 600px;
-    min-width: 300px;
-    margin: 100px auto;
-    .avatar{
+.register {
+    // max-width: 600px;
+    // min-width: 300px;
+    // margin: 100px auto;
+    @apply shadow-xl max-w-2xl mt-24 m-auto mb-10 pb-4 px-2.5 rounded-md;
+
+    .avatar {
         margin: 0 auto;
-        span{
+
+        span {
             display: block;
             margin: 0 auto;
-            span{
+
+            span {
                 display: flex;
                 padding-top: 15px;
                 justify-content: center;
             }
 
         }
+
+        img {
+            height: 170px;
+            object-fit: contain;
+            display: block;
+            margin: 20px auto;
+        }
+
+    }
+}
+
+@media(max-width: 576px) {
+    .register {
+        margin: 5px auto;
+        width: 320px;
     }
 }

@@ -1,4 +1,4 @@
-.button{
+.button {
     display: flex;
     align-self: center;
     background-color: rgb(35, 91, 95);
@@ -7,39 +7,41 @@
     cursor: pointer;
     box-shadow: 0 10px 20px rgb(145 143 143 / 59%);
     transition: transform 0.4s;
-    &:hover{
+
+    &:hover {
         transform: scale(1.05);
     }
-    img{
+
+    img {
         width: 20px;
         height: 20px;
         margin-right: 15px;
         display: block;
     }
-    span{
+
+    span {
         font-size: 18px;
         font-weight: 700;
         color: #fff;
     }
 }
 
-@media(max-width: 720px){
-    .button{
+@media(max-width: 720px) {
+    .button {
         align-self: start;
     }
 }
 
-@media(max-width: 577px){
-    .button{
+@media(max-width: 577px) {
+    .button {
         align-self: end;
     }
 }
 
-@media(max-width: 450px){
-    .button{
-        span{
+@media(max-width: 450px) {
+    .button {
+        span {
             font-size: 12px;
         }
     }
 }
-

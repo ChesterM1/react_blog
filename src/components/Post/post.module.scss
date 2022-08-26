@@ -1,14 +1,16 @@
-.post{
+.post {
     position: relative;
     box-shadow: 0 10px 20px rgba(145, 143, 143, 0.586);
     margin-bottom: 50px;
     border-radius: 5px;
-    &:hover{
-        .edit{
+
+    &:hover {
+        .edit {
             display: block;
         }
     }
-    img{
+
+    img {
         position: relative;
         display: block;
         max-width: 100%;
@@ -19,7 +21,8 @@
         border-radius: 5px 5px 0 0;
 
     }
-    .title{
+
+    .title {
         background-image: linear-gradient(#e6646400, #000000c4);
         height: 240px;
         width: 100%;
@@ -28,93 +31,109 @@
         top: 275px;
         color: #fff;
         display: flex;
-        align-items: end;
+        align-items: flex-end;
         z-index: 6;
         cursor: pointer;
-        h2{
+
+        h2 {
             font-size: 40px;
             font-weight: 600;
             padding: 0 5px 10px 10px;
         }
     }
-    .text{
+
+    .text {
         padding: 20px 20px 0;
         font-weight: 500;
         color: rgba(59, 58, 58, 0.777);
-        p{
+
+        p {
             font-size: 18px;
         }
     }
-    .tags{
+
+    .tags {
         display: flex;
         justify-content: space-between;
         padding: 0 20px;
-        align-items: end;
+        align-items: flex-end;
         margin-top: 10px;
-        ul{
+
+        ul {
             list-style-type: none;
             display: flex;
-            justify-content: start;
+            justify-content: flex-start;
             margin: 0;
-           li{
+
+            li {
                 color: #000;
                 font-weight: 900;
                 font-size: 18px;
                 margin-right: 10px;
-                &:hover{
-                    color:rgba(0, 0, 0, 0.534);
+
+                &:hover {
+                    color: rgba(0, 0, 0, 0.534);
                 }
-           }
+            }
         }
     }
-    .bottom{
+
+    .bottom {
         display: flex;
         justify-content: space-between;
         padding: 15px 20px;
         color: #ced0d3;
-        img{
+
+        img {
             width: 20px;
             height: 20px;
             object-fit: cover;
         }
-        .right{
+
+        .right {
             display: flex;
-            justify-content: start;
+            justify-content: flex-start;
             gap: 30px;
-            div{
+
+            div {
                 display: flex;
                 gap: 5px
             }
         }
     }
-    .edit{
+
+    .edit {
         position: absolute;
         top: -3px;
         left: -3px;
-        height:  calc(100% + 6px);
+        height: calc(100% + 6px);
         width: calc(100% + 6px);
         border: 3px solid rgb(76, 196, 205);
         border-radius: 8px;
         display: none;
-        div{
+
+        div {
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
             gap: 20px;
             padding: 20px;
         }
-        img{
+
+        img {
             width: 30px;
             height: 30px;
             cursor: pointer;
             z-index: 6;
-            transition: transform 0.3s ;
-            &:hover{
+            transition: transform 0.3s;
+
+            &:hover {
                 transform: scale(1.1);
             }
         }
     }
-    .commentBlock{
-        box-shadow: 11px 12px 23px 5px rgba(0,0,0,0.57);
+
+    .commentBlock {
+        box-shadow: 11px 12px 23px 5px rgba(0, 0, 0, 0.57);
         border-radius: 10px;
         padding: 10px;
         width: 98%;
@@ -123,7 +142,7 @@
         display: none;
         height: 0;
 
-        .button{
+        .button {
             display: block;
             margin: 0 auto;
             padding: 5px 20px;
@@ -133,69 +152,77 @@
             font-weight: 600;
         }
     }
-    .commentBlock.active{
+
+    .commentBlock.active {
         display: block;
         height: auto;
     }
-    
-    .author{
+
+    .author {
         padding: 15px 0 0 10px;
     }
 }
 
 
-@media(max-width: 720px){
-    .post{
-        img{
+@media(max-width: 720px) {
+    .post {
+        img {
             height: 400px;
         }
-        .title{
+
+        .title {
             top: 160px;
-            h2{
+
+            h2 {
                 font-size: 28.5px;
             }
         }
     }
 }
 
-@media(max-width: 420px){
-    .post{
-        .title{
+@media(max-width: 420px) {
+    .post {
+        .title {
             height: 100px;
             top: 200px;
-            h2{
+
+            h2 {
                 font-size: 22px;
             }
         }
-        img{
+
+        img {
             height: 300px;
         }
-        .tags{
-           ul{
-            li{
-                font-size: 14px;
+
+        .tags {
+            ul {
+                li {
+                    font-size: 14px;
+                }
             }
-           }
         }
-        .text{
-            p{
+
+        .text {
+            p {
                 font-size: 15px;
             }
         }
     }
 }
 
-@media(max-width: 360px){
-    .post{
-        .bottom{
-            .right{
-                span{
+@media(max-width: 360px) {
+    .post {
+        .bottom {
+            .right {
+                span {
                     font-size: 12px;
                 }
             }
         }
     }
-    .time{
+
+    .time {
         font-size: 12px;
     }
 }

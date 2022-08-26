@@ -1,0 +1,19 @@
+.button {
+    @apply block w-full rounded-lg py-1 font-bold bg-green-500 border-none text-white transition-colors;
+
+    img {
+        @apply inline-block mr-1.5;
+    }
+
+    &:hover {
+        @apply bg-green-600;
+    }
+
+    &:disabled {
+        @apply bg-green-700;
+    }
+}
+
+.spinner {
+    @apply h-6;
+}
