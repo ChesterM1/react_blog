@@ -1,7 +1,7 @@
 .mini__posts {
     width: 100%;
-    margin-top: 30px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.116);
+    margin: 30px 0 auto;
 
     img {
         width: 20px;
@@ -48,6 +48,10 @@
         span {
             color: #ced0d3;
         }
+    }
+
+    .bottom {
+        padding: 0 5px;
     }
 }
 

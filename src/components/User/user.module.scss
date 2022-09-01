@@ -1,14 +1,18 @@
-.user{
-    // @apply w-10;
-    div{
-        @apply flex items-center gap-2 ;
-        img{
+.user {
+    @apply z-10 relative;
+
+    div {
+        @apply flex items-center gap-2 justify-start;
+
+        img {
             @apply w-12 object-cover h-12;
         }
-        div{
-            @apply text-slate-400 font-light
+
+        div {
+            @apply text-slate-400 font-light;
+
         }
-        
+
 
     }
 }

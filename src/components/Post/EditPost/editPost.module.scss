@@ -1,0 +1,31 @@
+.edit {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    height: calc(100% + 6px);
+    width: calc(100% + 6px);
+    border: 3px solid rgb(90, 233, 243);
+    border-radius: 8px;
+    display: block;
+    z-index: 1;
+
+    div {
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        z-index: 3;
+        position: relative;
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}

@@ -3,16 +3,14 @@ import Header from '../../components/Header/Header';
 import TagsBar from '../../components/TagsBar/TagsBar';
 import Commentaries from '../../components/Commentaries/Commentaries';
 import Post from '../../components/Post/Post';
-import MiniPosts from '../../components/MiniPosts/MiniPosts';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import MiniPosts from '../../components/Post/MiniPosts/MiniPosts';
+import { useState } from 'react';
+import RightInfoBar from '../../components/RightInfoBar/RightInfoBar';
+
+const tabsTitle = ['New Post', 'Popular Post'];
 
 const Home: React.FC = () => {
-    const [login, setLogin] = useState<any>();
-    useEffect(() => {
-        axios.get('https://node-blog-api2.herokuapp.com/posts').then((res) => setLogin(res.data));
-    }, []);
-    console.log(login);
+    const [activeTabs, setActiveTabs] = useState<number>(0);
 
     return (
         <>
@@ -21,31 +19,27 @@ const Home: React.FC = () => {
                 <div className={styles.post__wrapper}>
                     <nav>
                         <ul>
-                            <li className={styles.active}>New Post</li>
-                            <li>Popular Post</li>
+                            {tabsTitle.map((item, i) => {
+                                return (
+                                    <li
+                                        key={i}
+                                        className={activeTabs === i ? styles.active : ''}
+                                        onClick={() => setActiveTabs(i)}>
+                                        {item}
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </nav>
-                    <div className={styles.new}>
-                        {[...new Array(5)].map((item, i) => (
-                            <Post key={i} />
-                        ))}
-                    </div>
-                    <div className={styles.popular}></div>
-                </div>
-                <div className={styles.bar}>
-                    <TagsBar />
 
-                    <div className={styles.mini__posts}>
-                        <h3>Popular posts</h3>
-                        <MiniPosts />
-                        <MiniPosts />
-                        <MiniPosts />
+                    <div>
+                        {activeTabs === 0
+                            ? [...new Array(5)].map((item, i) => <Post key={i} />)
+                            : [...new Array(2)].map((item, i) => <Post key={i} />)}
                     </div>
-                    <div className={styles.comment__bar}>
-                        <h3>Last comments</h3>
-                        <Commentaries />
-                        <Commentaries />
-                    </div>
+                </div>
+                <div className={styles.rightBar}>
+                    <RightInfoBar />
                 </div>
             </div>
         </>

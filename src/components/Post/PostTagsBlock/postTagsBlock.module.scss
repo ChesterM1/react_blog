@@ -1,0 +1,36 @@
+.tags {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 10px;
+    z-index: 6;
+    position: relative;
+
+    ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: flex-start;
+        margin: 0;
+
+        li {
+            color: #000;
+            font-weight: 900;
+            font-size: 18px;
+            margin-right: 10px;
+
+            &:hover {
+                color: rgba(0, 0, 0, 0.534);
+            }
+        }
+    }
+}
+
+@media(max-width:420px) {
+    .tags {
+        ul {
+            li {
+                font-size: 14px;
+            }
+        }
+    }
+}

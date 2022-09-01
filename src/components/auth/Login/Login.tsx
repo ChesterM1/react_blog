@@ -3,8 +3,6 @@ import icon from '../../../img/user.png';
 import Input from '../Input/Input';
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import backAfterLogin from '../../../utils/backAfterLogin';
 import { InputEnum, YupErrorsResolve } from './types';
 import { loginSchemaValidate } from '../../../utils/validateSchema';
@@ -17,7 +15,6 @@ const inputField = [
         input: {
             type: 'text',
             id: 'email',
-            password: false,
             name: InputEnum.email,
         },
         label: {

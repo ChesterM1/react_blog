@@ -3,159 +3,71 @@
     box-shadow: 0 10px 20px rgba(145, 143, 143, 0.586);
     margin-bottom: 50px;
     border-radius: 5px;
+    z-index: 2;
+    position: relative;
 
-    &:hover {
-        .edit {
-            display: block;
-        }
-    }
-
-    img {
+    .head {
         position: relative;
-        display: block;
-        max-width: 100%;
-        height: 515px;
-        object-fit: cover;
-        cursor: pointer;
-        z-index: 5;
-        border-radius: 5px 5px 0 0;
+        min-height: 240px;
 
-    }
+        img {
+            display: block;
+            max-width: 100%;
+            height: 515px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
 
-    .title {
-        background-image: linear-gradient(#e6646400, #000000c4);
-        height: 240px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 275px;
-        color: #fff;
-        display: flex;
-        align-items: flex-end;
-        z-index: 6;
-        cursor: pointer;
-
-        h2 {
-            font-size: 40px;
-            font-weight: 600;
-            padding: 0 5px 10px 10px;
         }
+
+        .title {
+            background-image: linear-gradient(#e6646400, #000000c4);
+            height: 50%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            color: #fff;
+            display: flex;
+            align-items: flex-end;
+            z-index: 6;
+            cursor: pointer;
+
+            h2 {
+                font-size: 40px;
+                font-weight: 600;
+                padding: 0 5px 10px 10px;
+            }
+        }
+
     }
 
     .text {
         padding: 20px 20px 0;
         font-weight: 500;
         color: rgba(59, 58, 58, 0.777);
+        z-index: 6;
+        position: relative;
 
         p {
             font-size: 18px;
         }
     }
 
-    .tags {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 20px;
-        align-items: flex-end;
-        margin-top: 10px;
-
-        ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: flex-start;
-            margin: 0;
-
-            li {
-                color: #000;
-                font-weight: 900;
-                font-size: 18px;
-                margin-right: 10px;
-
-                &:hover {
-                    color: rgba(0, 0, 0, 0.534);
-                }
-            }
-        }
-    }
-
     .bottom {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 20px;
-        color: #ced0d3;
-
-        img {
-            width: 20px;
-            height: 20px;
-            object-fit: cover;
-        }
-
-        .right {
-            display: flex;
-            justify-content: flex-start;
-            gap: 30px;
-
-            div {
-                display: flex;
-                gap: 5px
-            }
-        }
+        padding: 0 20px;
     }
 
-    .edit {
-        position: absolute;
-        top: -3px;
-        left: -3px;
-        height: calc(100% + 6px);
-        width: calc(100% + 6px);
-        border: 3px solid rgb(76, 196, 205);
-        border-radius: 8px;
-        display: none;
 
-        div {
-            display: flex;
-            justify-content: flex-end;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        img {
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            z-index: 6;
-            transition: transform 0.3s;
-
-            &:hover {
-                transform: scale(1.1);
-            }
-        }
-    }
 
     .commentBlock {
-        box-shadow: 11px 12px 23px 5px rgba(0, 0, 0, 0.57);
         border-radius: 10px;
         padding: 10px;
         width: 98%;
         margin: 30px auto 20px;
         transition: all 0.4s;
-        display: none;
-        height: 0;
-
-        .button {
-            display: block;
-            margin: 0 auto;
-            padding: 5px 20px;
-            border-radius: 10px;
-            background-color: rgb(21, 138, 121);
-            color: #fff;
-            font-weight: 600;
-        }
-    }
-
-    .commentBlock.active {
         display: block;
-        height: auto;
+        z-index: 10;
+        position: relative;
     }
 
     .author {
@@ -163,18 +75,17 @@
     }
 }
 
-
-@media(max-width: 720px) {
+@media(max-width: 1080px) {
     .post {
-        img {
-            height: 400px;
-        }
+        .head {
+            img {
+                height: 400px;
+            }
 
-        .title {
-            top: 160px;
-
-            h2 {
-                font-size: 28.5px;
+            .title {
+                h2 {
+                    font-size: 30px;
+                }
             }
         }
     }
@@ -182,25 +93,21 @@
 
 @media(max-width: 420px) {
     .post {
-        .title {
-            height: 100px;
-            top: 200px;
 
-            h2 {
-                font-size: 22px;
+        .head {
+            img {
+                height: 300px;
             }
-        }
 
-        img {
-            height: 300px;
-        }
+            .title {
+                height: 100px;
+                top: 200px;
 
-        .tags {
-            ul {
-                li {
-                    font-size: 14px;
+                h2 {
+                    font-size: 22px;
                 }
             }
+
         }
 
         .text {
@@ -208,21 +115,5 @@
                 font-size: 15px;
             }
         }
-    }
-}
-
-@media(max-width: 360px) {
-    .post {
-        .bottom {
-            .right {
-                span {
-                    font-size: 12px;
-                }
-            }
-        }
-    }
-
-    .time {
-        font-size: 12px;
     }
 }

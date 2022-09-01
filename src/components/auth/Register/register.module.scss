@@ -1,8 +1,6 @@
 .register {
-    // max-width: 600px;
-    // min-width: 300px;
-    // margin: 100px auto;
-    @apply shadow-xl max-w-2xl mt-24 m-auto mb-10 pb-4 px-2.5 rounded-md;
+
+    @apply shadow-xl max-w-lg mt-24 m-auto mb-10 pb-4 px-2.5 rounded-md;
 
     .avatar {
         margin: 0 auto;

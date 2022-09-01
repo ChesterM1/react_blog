@@ -1,0 +1,22 @@
+.fullPost {
+    display: flex;
+    justify-content: space-between;
+    padding: 40px 10px;
+
+    .post {
+        width: 68%;
+    }
+
+    .rightBar {
+        max-width: 30%;
+    }
+}
+
+@media(max-width: 720px) {
+    .fullPost {
+        .post {
+            width: 100%;
+        }
+
+    }
+}

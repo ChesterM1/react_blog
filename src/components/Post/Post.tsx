@@ -1,12 +1,20 @@
 import styles from './post.module.scss';
-import wiew from '../../img/view.svg';
-import comment from '../../img/comments.svg';
+// import wiew from '../../img/view.svg';
+// import comment from '../../img/comments.svg';
+// import activeComment from '../../img/chat.png';
+
 // import heartRed from '../../img/heart-svgrepo-com .svg';
-import heart from '../../img/heart.svg';
-import edit from '../../img/pencil.png';
-import remove from '../../img/remove.png';
+// import heart from '../../img/heart.svg';
+// import edit from '../../img/pencil.png';
+// import remove from '../../img/remove.png';
 import Commentaries from '../Commentaries/Commentaries';
 import User from '../User/User';
+import Button from '../Button/Button';
+import PostBottomBar from './PostBottomBar/PostBottomBar';
+import EditPost from './EditPost/EditPost';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import PostTagsBlock from './PostTagsBlock/PostTagsBlock';
 
 const Post = () => {
     //    const time = ()=>{
@@ -15,18 +23,31 @@ const Post = () => {
     //         const neww = new Date(date)
     //     return neww.toString();
     //    }
+    // const [showComment, setShowComment] = useState<boolean>(false);
+    // const [isLike, setIsLike] = useState<boolean>(false);
+    const [selectPost, setSelectPost] = useState<boolean>(false);
+
     return (
-        <section className={styles.post}>
+        <section
+            className={styles.post}
+            onMouseEnter={() => setSelectPost(true)}
+            onMouseLeave={() => setSelectPost(false)}>
             <div>
-                <img
-                    src='https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg'
-                    alt='post pic'
-                />
+                <Link to='post/1'>
+                    <div className={styles.head}>
+                        <img
+                            src='https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg'
+                            alt='post pic'
+                            // src='https://plc.ua/wp-content/uploads/2021/11/vw-jetta-450x253.jpeg'
+                        />
+                        <div className={styles.title}>
+                            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
+                        </div>
+                    </div>
+                </Link>
+
                 <div className={styles.author}>
                     <User />
-                </div>
-                <div className={styles.title}>
-                    <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
                 </div>
             </div>
             <div className={styles.text}>
@@ -37,52 +58,24 @@ const Post = () => {
                     explicabo?{' '}
                 </p>
             </div>
-            <div className={styles.tags}>
-                <ul>
-                    <a href='#'>
-                        <li>#tag one</li>
-                    </a>
-                    <a href='#'>
-                        <li>#tag two</li>
-                    </a>
-                    <a href='#'>
-                        <li>#tag tree</li>
-                    </a>
-                </ul>
-            </div>
+
             <div className={styles.bottom}>
-                <div className={styles.right}>
-                    <div>
-                        <img src={wiew} alt='view' />
-                        <span>0</span>
-                    </div>
-                    <div>
-                        <img src={comment} alt='comment' />
-                        <span>0</span>
-                    </div>
-                    <div>
-                        <img src={heart} className={styles.heart} alt='comment' />
-                        <span>1.2k</span>
-                    </div>
-                </div>
-                <div>
-                    <span className={styles.time}>2 hours ago</span>
-                </div>
+                <PostTagsBlock />
+                <PostBottomBar comment={true} like={true} view={true} />
             </div>
-            {true && (
-                <div className={styles.edit}>
-                    <div>
-                        <img src={edit} alt='edit icon' />
-                        <img src={remove} alt='remove icon' />
+
+            {selectPost && <EditPost />}
+            {/* {showComment && (
+                <div className={styles.commentBlock}>
+                    {[...new Array(2)].map((item, i) => {
+                        return <Commentaries key={i} />;
+                    })}
+
+                    <div className='w-40 m-auto '>
+                        <Button loading={false} text={'Load more'} />
                     </div>
                 </div>
-            )}
-            <div className={styles.commentBlock}>
-                <Commentaries />
-                <Commentaries />
-                <Commentaries />
-                <button className={styles.button}>Load more</button>
-            </div>
+            )} */}
         </section>
     );
 };

@@ -4,8 +4,6 @@ import Button from '../../Button/Button';
 import { useState } from 'react';
 import { InputEnum, YupErrorsResolve } from './types';
 import Input from '../Input/Input';
-import { useNavigate } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import { registerSchemaValidate } from '../../../utils/validateSchema';
 import axios from 'axios';
 import backAfterLogin from '../../../utils/backAfterLogin';
@@ -17,7 +15,6 @@ const inputField = [
         input: {
             type: 'text',
             id: InputEnum.email,
-            password: false,
             name: InputEnum.email,
         },
         label: {
@@ -30,7 +27,6 @@ const inputField = [
         input: {
             type: 'text',
             id: InputEnum.fullName,
-            password: false,
             name: InputEnum.fullName,
         },
         label: {

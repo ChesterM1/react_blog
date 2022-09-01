@@ -32,7 +32,7 @@ const Input: React.FC<InputInterface> = ({ input, label }) => {
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => (value ? setFocus(true) : setFocus(false))}
             />
-            {input.password && value && (
+            {input?.password && value && (
                 <img
                     src={toggleView ? hidden : eye}
                     onClick={() => setToggleView(!toggleView)}

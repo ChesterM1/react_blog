@@ -1,92 +1,67 @@
-.main{
+.main {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 30px;
-   
-    .post__wrapper{
-        max-width: 65%;
+
+    .post__wrapper {
+        max-width: 68%;
     }
 
-    .bar{
-        max-width: 30%;
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .comment__bar{
-        h3{
-            font-size: 30px;
-            color: #676666c0;
-            text-align: center;
-            p{
-                font-size: 9px;
-            }
-        }
-    }
-    .tab{
+    .tab {
         font-size: 30px;
         font-weight: 700;
         color: #5d6771;
-        &:hover{
-            color:#80b1e2;
+
+        &:hover {
+            color: #80b1e2;
         }
     }
 
-    .mini__posts{
-        box-shadow: 0 10px 20px rgba(145, 143, 143, 0.586);
-        border-radius: 5px;
-        padding: 25px 10px;
-        h3{
-            font-size: 30px;
-            color: #676666c0;
-            text-align: center;
-        }
-    }
-    nav{
+
+    nav {
         display: none;
         margin-bottom: 30px;
-        ul{
+
+        ul {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            :last-child{
-                border-bottom: none;
-            }
-            li{
+
+            li {
                 font-size: 24px;
-                border-bottom: 2px solid #5d6771;
                 padding: 0 5px 5px 5px;
                 font-weight: 700;
-                color:#5d6771;
-
-                
+                color: #5d6771;
             }
         }
     }
-    .active{
-        color:#80b1e2;
-        border-color: #80b1e2;
+
+    .rightBar {
+        max-width: 30%;
+    }
+
+    .active {
+        color: #80b1e2;
+        border-bottom: 2px solid #80b1e2;
     }
 }
 
-@media(max-width: 720px){
-    .main{
-        .bar{
-            display: none;
-        }
-        .post__wrapper{
+@media(max-width: 720px) {
+    .main {
+
+        .post__wrapper {
             max-width: 100%;
             padding: 15px;
         }
-        nav{
+
+        nav {
             display: block;
-            ul{
-                li{
+
+            ul {
+                li {
                     font-size: 18px;
                 }
             }
         }
     }
 }
-

@@ -37,3 +37,7 @@ export const registerSchemaValidate = yup.object().shape({
         .min(5, 'Minimum 5 characters')
         .max(25, 'Maximum 6 characters'),
 });
+
+export const commentSchemaValidate = yup.object().shape({
+    comment: yup.string().required().matches(/\S/),
+});

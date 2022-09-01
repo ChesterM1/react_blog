@@ -2,7 +2,7 @@ export interface InputInterface {
     input: {
         type: string;
         id: string;
-        password: boolean;
+        password?: true | false;
         name: string;
     };
     label: {
