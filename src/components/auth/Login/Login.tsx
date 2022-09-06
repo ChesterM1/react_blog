@@ -105,7 +105,7 @@ const Login: React.FC = () => {
                             );
                         })}
 
-                        <div className='mt-10'>
+                        <div className={styles.button}>
                             <Button type={'submit'} loading={loading} text={'Sign In'} />
                         </div>
                     </div>

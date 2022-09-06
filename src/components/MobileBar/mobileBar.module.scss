@@ -1,15 +1,31 @@
-.bar{
-    @apply hidden absolute top-0 right-0 z-20 ;
-    .bg{
-        @apply absolute  w-full h-full top-0 left-0 bg-cyan-800 bg-opacity-80;
+.bar {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20;
+
+    .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.8;
+        background-color: rgb(21, 94, 117, .8);
+        width: 100%;
+        height: 100%;
     }
-    .wrapper{
-        @apply z-30 w-2/3 bg-slate-50 py-20 px-2.5;
+
+    .wrapper {
+        z-index: 30;
+        width: 66.6%;
+        background-color: rgb(248, 250, 252, 0.8);
+        padding: 80px 10px;
     }
 }
 
-@media(max-width: 720px){
-    .bar{
-        @apply flex justify-end;
+@media(max-width: 720px) {
+    .bar {
+        display: flex;
+        justify-content: flex-end;
     }
 }

@@ -1,7 +1,13 @@
 .serverError {
-    @apply bg-red-200 border-2 border-red-400 rounded-xl px-2 py-3 text-red-700 flex justify-between;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(254, 202, 202);
+    border: 2px solid rgb(248, 113, 113);
+    border-radius: 12px;
+    padding: 12px 8px;
+
 
     span {
-        @apply cursor-pointer;
+        cursor: pointer;
     }
 }

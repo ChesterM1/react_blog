@@ -4,10 +4,12 @@
 
     .text {
         padding: 12px;
-        font-weight: 300;
+        font-weight: 400;
         font-size: 14px;
         line-height: 20px;
-        color: rgb(107, 114, 128, 0.9)
+        color: rgb(107, 114, 128, 0.9);
+        font-size: 15px;
+        line-height: 24px;
     }
 
     .bottom {
@@ -20,11 +22,31 @@
         gap: 20px;
         margin-left: 20px;
 
+        div {
+            display: flex;
+            gap: 5px;
+
+            &:first-child img {
+                align-self: flex-start;
+            }
+        }
+
         img {
             height: 15px;
             object-fit: cover;
             cursor: pointer;
+            align-self: flex-end;
         }
+
+
+        span {
+            font-size: 13px;
+            line-height: 15px;
+            color: rgb(161, 162, 164);
+            align-self: flex-end;
+        }
+
+        ;
     }
 
     .date {

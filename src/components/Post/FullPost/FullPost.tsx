@@ -41,8 +41,10 @@ const FullPost = () => {
                     eos? Explicabo soluta molestiae totam, maxime sunt voluptatem vero, cumque
                     consequatur commodi voluptas vel labore odio?
                 </article>
-                <PostTagsBlock />
-                <PostBottomBar comment={true} like={true} view={true} />
+                <div className={styles.bottom}>
+                    <PostTagsBlock />
+                    <PostBottomBar comment={true} like={true} view={true} />
+                </div>
                 {edit && <EditPost />}
             </main>
         </section>

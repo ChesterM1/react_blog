@@ -10,8 +10,8 @@ const FullPostPage = () => {
             <Header />
             <div className={styles.fullPost}>
                 <div className={styles.post}>
-                    <div>
-                        <FullPost />
+                    <FullPost />
+                    <div className={styles.commentBlock}>
                         <CommentBlock />
                     </div>
                 </div>

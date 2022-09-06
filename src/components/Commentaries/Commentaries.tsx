@@ -31,16 +31,22 @@ const Commentaries = () => {
             </div>
             <div className={styles.bottom}>
                 <div className={styles.likeBlock}>
-                    <img
-                        src={like ? likeFill : likeOut}
-                        alt='like'
-                        onClick={(e) => handleLike(e)}
-                    />
-                    <img
-                        src={dislike ? disLikeOut : disLikeFill}
-                        alt='dislike'
-                        onClick={(e) => handleLike(e)}
-                    />
+                    <div>
+                        <img
+                            src={like ? likeFill : likeOut}
+                            alt='like'
+                            onClick={(e) => handleLike(e)}
+                        />
+                        <span>2</span>
+                    </div>
+                    <div>
+                        <img
+                            src={dislike ? disLikeOut : disLikeFill}
+                            alt='dislike'
+                            onClick={(e) => handleLike(e)}
+                        />
+                        <span>11</span>
+                    </div>
                 </div>
                 <div className={styles.date}>6 hour ago</div>
             </div>

@@ -1,41 +1,57 @@
-.block{
-    @apply h-20 flex gap-4;
-    button{
-        @apply self-center px-2 py-1.5 rounded-lg font-bold text-lg transition-transform;
+.block {
+    display: flex;
+    gap: 16px;
+    height: 80px;
+
+    button {
+        align-self: center;
+        padding: 6px 8px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 28px;
+        transition: transform 0.2s;
+
         background-color: rgba(255, 255, 255, 0);
         border: 2px solid rgb(18, 155, 173);
         color: rgb(18, 155, 173);
-        &:hover{
-            @apply scale-105
+
+        &:hover {
+            transform: scale(1.05);
         }
     }
 }
 
-@media(max-width: 720px){
-    .block{
-        button{
-            @apply flex self-start ;
-
+@media(max-width: 720px) {
+    .block {
+        button {
+            display: flex;
+            align-self: flex-start;
         }
     }
 }
 
-@media(max-width: 577px){
-    .block{
+@media(max-width: 577px) {
+    .block {
         @apply flex-col;
-        button{
-        @apply   self-end w-full justify-center;
+        flex-direction: column;
+
+        button {
+            align-self: flex-end;
+            width: 100%;
+            justify-content: center;
         }
 
     }
 }
 
-@media(max-width: 450px){
-    .block{
-        button{
-        @apply   p-1 text-sm;
+@media(max-width: 450px) {
+    .block {
+        button {
+            padding: 4px;
+            font-size: 14px;
+            line-height: 20px;
         }
 
     }
 }
-

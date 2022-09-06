@@ -32,4 +32,4 @@ const MobileBar = () => {
         </section>
     );
 };
-export default MobileBar;
+// export default MobileBar;

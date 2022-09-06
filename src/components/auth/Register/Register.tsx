@@ -138,7 +138,7 @@ const Register = () => {
                         </div>
                     );
                 })}
-                <div className='mt-10'>
+                <div className={styles.button}>
                     <Button loading={buttonLoading} text={'Sign Up'} type={'submit'} />
                 </div>
             </form>
