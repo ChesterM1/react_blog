@@ -2,7 +2,8 @@ import styles from './login.module.scss';
 import icon from '../../../img/user.png';
 import Input from '../Input/Input';
 import { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../../../utils/axios/axios';
 import backAfterLogin from '../../../utils/backAfterLogin';
 import { InputEnum, YupErrorsResolve } from './types';
 import { loginSchemaValidate } from '../../../utils/validateSchema';
@@ -58,16 +59,16 @@ const Login: React.FC = () => {
                 console.log(res);
                 setLoading(true);
                 axios
-                    .post('https://node-blog-api2.herokuapp.com/auth/login', {
+                    .post('auth/login', {
                         email: res.email,
                         password: res.password,
                     })
-                    .then((res) => {
+                    .then((res: any) => {
                         console.log(res.data);
                         setLoading(false);
                         backAfterLogin();
                     })
-                    .catch((err) => {
+                    .catch((err: any) => {
                         setServerErrorMessage(err.response.data.message);
                         setLoading(false);
                     });

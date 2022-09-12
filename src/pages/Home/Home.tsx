@@ -6,12 +6,13 @@ import Post from '../../components/Post/Post';
 import MiniPosts from '../../components/Post/MiniPosts/MiniPosts';
 import { useState } from 'react';
 import RightInfoBar from '../../components/RightInfoBar/RightInfoBar';
+import axios from '../../utils/axios/axios';
 
 const tabsTitle = ['New Post', 'Popular Post'];
 
 const Home: React.FC = () => {
     const [activeTabs, setActiveTabs] = useState<number>(0);
-
+    axios.get('auth/me').then((res: any) => console.log(res));
     return (
         <>
             <Header />

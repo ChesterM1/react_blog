@@ -1,15 +1,13 @@
 import styles from './createPost.module.scss';
-import 'easymde/dist/easymde.min.css';
-import { FormEvent, useCallback, useMemo, useRef, useState } from 'react';
-import SimpleMDE from 'react-simplemde-editor';
+import { FormEvent, useRef, useState } from 'react';
 import Button from '../../Button/Button';
 import ImgSkeleton from './ImgSkeleton';
 import { Link } from 'react-router-dom';
+import SimpleEditor from '../SimpleEditor/SimpleEditor';
 
 const CreatePost = () => {
     const [blobLinkImg, setBlobLinkImg] = useState<string>('');
     const [inputValueImg, setInputValueImg] = useState<string>('');
-    const [textMde, setTextMde] = useState<string>('');
     const fileImgRef = useRef<HTMLInputElement>(null);
 
     const triggeredInput = () => {
@@ -25,27 +23,6 @@ const CreatePost = () => {
         }
         setInputValueImg(e.target.value);
     };
-
-    const optionsMDE = useMemo(
-        () =>
-            ({
-                spellChecker: false,
-                maxHeight: '400px',
-                placeholder: 'Typing in text...',
-                status: false,
-                markdown: true,
-                autosave: {
-                    uniqueId: 'demo',
-                    enabled: true,
-                    delay: 1000,
-                },
-            } as EasyMDE.Options),
-        []
-    );
-
-    const onChange = useCallback((value: string) => {
-        setTextMde(value);
-    }, []);
 
     const resetImgLink = () => {
         if (window.confirm('Remove this image?')) {
@@ -64,7 +41,7 @@ const CreatePost = () => {
                 <div className={styles.head}>
                     <div className={styles.imgBlock}>
                         {blobLinkImg ? (
-                            <div>
+                            <div className={styles.img}>
                                 <img
                                     // src='https://www.freeiconspng.com/uploads/download-bmw-car-png-image-0.png'
                                     src={blobLinkImg}
@@ -96,7 +73,7 @@ const CreatePost = () => {
                 </div>
 
                 <div className={styles.editor}>
-                    <SimpleMDE value={textMde} onChange={onChange} options={optionsMDE} />
+                    <SimpleEditor />
                 </div>
                 <div className={styles.buttons}>
                     <Button text={'Submit'} type={'submit'} loading={false} />

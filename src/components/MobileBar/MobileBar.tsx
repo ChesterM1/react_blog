@@ -1,7 +1,7 @@
 import styles from './mobileBar.module.scss';
 import Commentaries from '../Commentaries/Commentaries';
 import MiniPosts from '../Post/MiniPosts/MiniPosts';
-import CreatePostButton from '../Post/CreatePostButton/CreatePostButton';
+import CreatePostButton from '../Header/Authorized/CreatePostButton/CreatePostButton';
 import TagsBar from '../TagsBar/TagsBar';
 import NoLoginBlock from '../Header/NoLoginBlock/NoLoginBlock';
 
