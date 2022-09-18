@@ -3,12 +3,10 @@ import icon from '../../img/electric-car.png';
 import { Link } from 'react-router-dom';
 import NoLoginBlock from './NoLoginBlock/NoLoginBlock';
 import Authorized from './Authorized/Authorized';
+import { useAppSelector } from '../../redux/store';
 
-interface Iinterface {
-    props?: () => void;
-}
-const Header: React.FC<Iinterface> = (props) => {
-    console.log(props);
+const Header: React.FC = () => {
+    const auth = useAppSelector((state) => state.auth.isAuth);
 
     return (
         <div className={styles.header}>
@@ -21,8 +19,7 @@ const Header: React.FC<Iinterface> = (props) => {
                 </div>
             </Link>
 
-            {/* <NoLoginBlock /> */}
-            <Authorized />
+            {auth ? <Authorized /> : <NoLoginBlock />}
         </div>
     );
 };

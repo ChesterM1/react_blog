@@ -1,15 +1,18 @@
 import styles from './login.module.scss';
 import icon from '../../../img/user.png';
-import Input from '../Input/Input';
-import { useState } from 'react';
-// import axios from 'axios';
-import axios from '../../../utils/axios/axios';
+import { useEffect, useState } from 'react';
 import backAfterLogin from '../../../utils/backAfterLogin';
+import Input from '../Input/Input';
 import { InputEnum, YupErrorsResolve } from './types';
 import { loginSchemaValidate } from '../../../utils/validateSchema';
 import Button from '../../Button/Button';
 import ValidateErrorMessage from '../ValidateErrorMessage/ValidateErrorMessage';
 import ServerErrorMessage from '../ServerErrorMessage/ServerErrorMessage';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
+import { userAuthFetch } from '../../../redux/slices/auth/auth';
+import { LoadStatus } from '../../../redux/slices/loadStatusTypes';
+import { useNavigate } from 'react-router-dom';
+import { serverErrorMessageCancel } from '../../../redux/slices/auth/auth';
 
 const inputField = [
     {
@@ -42,8 +45,10 @@ const Login: React.FC = () => {
         name: '',
         errors: '',
     });
-    const [serverErrorMessage, setServerErrorMessage] = useState('');
-    const [loading, setLoading] = useState(false);
+    const { status, serverErrorMessage, isAuth } = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+
+    const navigate = useNavigate();
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -56,28 +61,19 @@ const Login: React.FC = () => {
                 password: formProps.password,
             })
             .then((res) => {
-                console.log(res);
-                setLoading(true);
-                axios
-                    .post('auth/login', {
-                        email: res.email,
-                        password: res.password,
-                    })
-                    .then((res: any) => {
-                        console.log(res.data);
-                        setLoading(false);
-                        backAfterLogin();
-                    })
-                    .catch((err: any) => {
-                        setServerErrorMessage(err.response.data.message);
-                        setLoading(false);
-                    });
+                dispatch(userAuthFetch(res));
             })
             .catch((err: YupErrorsResolve) => {
                 const errText = err.errors[0];
                 setInputErrorsMessage({ errors: errText, name: err.path });
             });
     };
+    useEffect(() => {
+        if (isAuth) {
+            backAfterLogin(navigate);
+        }
+        // eslint-disable-next-line
+    }, [isAuth]);
 
     return (
         <section className={styles.login}>
@@ -90,7 +86,7 @@ const Login: React.FC = () => {
                         {serverErrorMessage && (
                             <ServerErrorMessage
                                 message={serverErrorMessage}
-                                hiddenMessage={() => setServerErrorMessage('')}
+                                hiddenMessage={() => dispatch(serverErrorMessageCancel())}
                             />
                         )}
 
@@ -107,7 +103,11 @@ const Login: React.FC = () => {
                         })}
 
                         <div className={styles.button}>
-                            <Button type={'submit'} loading={loading} text={'Sign In'} />
+                            <Button
+                                type={'submit'}
+                                loading={status === LoadStatus.LOADING ? true : false}
+                                text={'Sign In'}
+                            />
                         </div>
                     </div>
                 </form>

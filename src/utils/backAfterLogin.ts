@@ -1,15 +1,13 @@
 import { createBrowserHistory } from 'history';
+import { NavigateFunction } from 'react-router-dom';
 
-const backAfterLogin = (): void => {
+const backAfterLogin = (navigate: NavigateFunction): void => {
     const history = createBrowserHistory({ window });
-
     if (history.location.key === 'default') {
-        history.push('/');
-        history.go(1);
-        window.location.reload();
+        navigate('/');
         return;
     }
-    history.back();
+    navigate(-1);
 };
 
 export default backAfterLogin;

@@ -1,14 +1,17 @@
 import styles from './register.module.scss';
 import user from '../../../img/user.png';
 import Button from '../../Button/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InputEnum, YupErrorsResolve } from './types';
 import Input from '../Input/Input';
 import { registerSchemaValidate } from '../../../utils/validateSchema';
-import axios from 'axios';
 import backAfterLogin from '../../../utils/backAfterLogin';
 import ValidateErrorMessage from '../ValidateErrorMessage/ValidateErrorMessage';
 import ServerErrorMessage from '../ServerErrorMessage/ServerErrorMessage';
+import { useNavigate } from 'react-router-dom';
+import { serverErrorMessageCancel, userAuthFetch } from '../../../redux/slices/auth/auth';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
+import { LoadStatus } from '../../../redux/slices/loadStatusTypes';
 
 const inputField = [
     {
@@ -64,13 +67,13 @@ const inputField = [
 ];
 
 const Register = () => {
-    const [buttonLoading, setButtonLoading] = useState<boolean>(false);
-
     const [inputErrorsMessage, setInputErrorsMessage] = useState({
         name: '',
         errors: '',
     });
-    const [serverErrorMessage, setServerErrorMessage] = useState('');
+    const { isAuth, serverErrorMessage, status } = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const submit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -87,7 +90,6 @@ const Register = () => {
                 confirmPassword: formProps.confirmPassword,
             })
             .then((res) => {
-                console.log(res);
                 if (res.password !== res.confirmPassword) {
                     return setInputErrorsMessage({
                         name: 'confirmPassword',
@@ -95,27 +97,26 @@ const Register = () => {
                     });
                 }
                 setInputErrorsMessage({ name: '', errors: '' });
-                setButtonLoading(true);
-                axios
-                    .post('https://node-blog-api2.herokuapp.com/auth/register', {
+
+                dispatch(
+                    userAuthFetch({
                         email: res.email,
                         fullName: res.fullName,
                         password: res.password,
                     })
-                    .then((res) => {
-                        console.log(res.data);
-                        setButtonLoading(false);
-                        backAfterLogin();
-                    })
-                    .catch((err) => {
-                        setServerErrorMessage(err.response.data.message);
-                        setButtonLoading(false);
-                    });
+                );
             })
             .catch((err: YupErrorsResolve) => {
                 setInputErrorsMessage({ errors: err.errors[0], name: err.path });
             });
     };
+
+    useEffect(() => {
+        if (isAuth) {
+            backAfterLogin(navigate);
+        }
+        // eslint-disable-next-line
+    }, [status]);
 
     return (
         <section className={styles.register}>
@@ -126,7 +127,7 @@ const Register = () => {
                 {serverErrorMessage && (
                     <ServerErrorMessage
                         message={serverErrorMessage}
-                        hiddenMessage={() => setServerErrorMessage('')}
+                        hiddenMessage={() => dispatch(serverErrorMessageCancel())}
                     />
                 )}
                 {inputField.map((item, i) => {
@@ -139,7 +140,11 @@ const Register = () => {
                     );
                 })}
                 <div className={styles.button}>
-                    <Button loading={buttonLoading} text={'Sign Up'} type={'submit'} />
+                    <Button
+                        loading={status === LoadStatus.LOADING ? true : false}
+                        text={'Sign Up'}
+                        type={'submit'}
+                    />
                 </div>
             </form>
         </section>

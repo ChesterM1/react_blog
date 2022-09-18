@@ -5,10 +5,13 @@ import DropDown from './DropDown/DropDown';
 import { useRef, useState } from 'react';
 import Overlay from './DropDown/OverLay/OverLay';
 import CreatePostButton from './CreatePostButton/CreatePostButton';
+import { useAppSelector } from '../../../redux/store';
 
-const Authorized = () => {
+const Authorized: React.FC = () => {
     const [dropDown, setDropDown] = useState<boolean>(false);
     const dropDownRef = useRef<HTMLDivElement>(null);
+    const user = useAppSelector((state) => state.auth.user);
+
     const triggerDropDown = (e: React.MouseEvent) => {
         if (e.currentTarget === dropDownRef.current) {
             setDropDown((state) => !state);
@@ -22,7 +25,7 @@ const Authorized = () => {
             <CreatePostButton />
             <menu>
                 <div className={styles.user} ref={dropDownRef} onClick={triggerDropDown}>
-                    <img className={styles.img} src={userICon} alt='user icon' />
+                    <img className={styles.img} src={user.avatar || userICon} alt='user icon' />
                     <img className={styles.arrow} src={arrow} alt='arrow icon' />
                 </div>
                 {dropDown && (

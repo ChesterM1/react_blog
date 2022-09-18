@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PostTagsBlock from './PostTagsBlock/PostTagsBlock';
 
-const Post = () => {
+const Post: React.FC = () => {
     //    const time = ()=>{
     //         const date = new Date().getTime();
 
