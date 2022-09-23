@@ -2,6 +2,11 @@ import styles from './miniPosts.module.scss';
 import PostBottomBar from '../PostBottomBar/PostBottomBar';
 
 const MiniPosts = () => {
+    const obj = {
+        createdAt: '2022-08-17T02:40:48.873+00:00',
+        updatedAt: '2022-08-17T02:40:48.873+00:00',
+        viewCount: 0,
+    };
     return (
         <div className={styles.mini__posts}>
             <div className={styles.mini__img}>
@@ -12,7 +17,7 @@ const MiniPosts = () => {
                 <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem eum ea</h5>
             </div>
             <div className={styles.bottom}>
-                <PostBottomBar view={true} comment={true} />
+                <PostBottomBar view={true} comment={true} props={obj} />
             </div>
         </div>
     );

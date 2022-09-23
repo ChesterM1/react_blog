@@ -4,7 +4,7 @@ import hidden from '../../../img/hidden.png';
 import { useState } from 'react';
 import { InputInterface } from './types';
 
-const Input: React.FC<InputInterface> = ({ input, label }) => {
+const Input: React.FC<InputInterface> = ({ input, label, error = false }) => {
     const [focus, setFocus] = useState(false);
     const [value, setValue] = useState('');
     const [toggleView, setToggleView] = useState(false);
@@ -31,6 +31,7 @@ const Input: React.FC<InputInterface> = ({ input, label }) => {
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={() => (value ? setFocus(true) : setFocus(false))}
+                style={error ? { border: '1px solid red' } : { border: '1px solid transparent' }}
             />
             {input?.password && value && (
                 <img

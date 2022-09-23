@@ -134,7 +134,11 @@ const Register = () => {
                     const { name, errors } = inputErrorsMessage;
                     return (
                         <div key={i}>
-                            <Input input={item.input} label={item.label} />
+                            <Input
+                                input={item.input}
+                                label={item.label}
+                                error={item.input.name === name ? true : false}
+                            />
                             {item.input.name === name && <ValidateErrorMessage message={errors} />}
                         </div>
                     );

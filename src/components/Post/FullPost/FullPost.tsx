@@ -7,6 +7,11 @@ import { useState } from 'react';
 
 const FullPost = () => {
     const [edit, setEdit] = useState<boolean>(false);
+    const obj = {
+        createdAt: '2022-08-17T02:40:48.873+00:00',
+        updatedAt: '2022-08-17T02:40:48.873+00:00',
+        viewCount: 0,
+    };
     return (
         <section
             className={styles.post}
@@ -25,7 +30,7 @@ const FullPost = () => {
                             // src='https://img1.akspic.ru/crops/5/3/4/7/6/167435/167435-otrazhenie-legkovyye_avtomobili-ios-shina-koleso-3840x2160.jpg'
                             alt='doge challenger'
                         />
-                        <User />
+                        <User fullName={'Joe Jordison'} />
                     </div>
                 </div>
 
@@ -42,8 +47,8 @@ const FullPost = () => {
                     consequatur commodi voluptas vel labore odio?
                 </article>
                 <div className={styles.bottom}>
-                    <PostTagsBlock />
-                    <PostBottomBar comment={true} like={true} view={true} />
+                    <PostTagsBlock tags={['#one', '#two', '#three']} />
+                    <PostBottomBar comment={true} like={true} view={true} props={obj} />
                 </div>
                 {edit && <EditPost />}
             </main>

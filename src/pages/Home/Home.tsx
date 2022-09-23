@@ -6,11 +6,10 @@ import Post from '../../components/Post/Post';
 import MiniPosts from '../../components/Post/MiniPosts/MiniPosts';
 import { useEffect, useState } from 'react';
 import RightInfoBar from '../../components/RightInfoBar/RightInfoBar';
+import SkeletonPost from '../../components/Post/SkeletonPost';
 import { useAppSelector, useAppDispatch } from '../../redux/store';
 import { fetchPosts } from '../../redux/slices/posts/posts';
 import { LoadStatus } from '../../redux/slices/loadStatusTypes';
-import axios from '../../utils/axios/axios';
-import { Post as posts } from '../../redux/slices/posts/postTypes';
 
 const tabsTitle = ['New Post', 'Popular Post'];
 
@@ -23,9 +22,10 @@ const Home: React.FC = () => {
         dispatch(fetchPosts());
     }, []);
 
-    if (status !== LoadStatus.IDLE) {
-        return <div>'LOADING'</div>;
-    }
+    const PostRender =
+        status === LoadStatus.LOADING
+            ? [...new Array(4)].map((_, i) => <SkeletonPost key={i} />)
+            : allPosts.map((item, i) => <Post key={item._id} props={item} />);
 
     return (
         <>
@@ -49,8 +49,8 @@ const Home: React.FC = () => {
 
                     <div>
                         {activeTabs === 0
-                            ? allPosts.map((item, i) => <Post key={i} />) //[...new Array(1)].map((item, i) => <Post key={i} />)
-                            : [...new Array(2)].map((item, i) => <Post key={i} />)}
+                            ? PostRender
+                            : allPosts.map((item, i) => <Post key={item._id} props={item} />)}
                     </div>
                 </div>
                 <div className={styles.rightBar}>

@@ -15,17 +15,32 @@ import EditPost from './EditPost/EditPost';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PostTagsBlock from './PostTagsBlock/PostTagsBlock';
+import { PostInterface } from './types';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import moment from 'moment-timezone';
+import { likePost } from '../../redux/slices/posts/posts';
 
-const Post: React.FC = () => {
-    //    const time = ()=>{
-    //         const date = new Date().getTime();
-
-    //         const neww = new Date(date)
-    //     return neww.toString();
-    //    }
-    // const [showComment, setShowComment] = useState<boolean>(false);
-    // const [isLike, setIsLike] = useState<boolean>(false);
+const Post: React.FC<PostInterface> = ({ props }) => {
+    const { _id, title, text, tags, viewCount, createdAt, updatedAt, user, like } = props;
     const [selectPost, setSelectPost] = useState<boolean>(false);
+    const userAuthId = useAppSelector((state) => state.auth.user._id);
+    const dispatch = useAppDispatch();
+    const newObj = {
+        viewCount,
+        handleLIKE: like,
+        createdAt: moment(createdAt).fromNow(),
+        updatedAt: moment(updatedAt).fromNow(),
+        addLike: () =>
+            dispatch(
+                likePost({
+                    postId: _id,
+                    userId: userAuthId,
+                })
+            ),
+    };
+    const replaceText = () => {
+        return text.substring(0, 350) + '...';
+    };
 
     return (
         <section
@@ -41,41 +56,25 @@ const Post: React.FC = () => {
                             // src='https://plc.ua/wp-content/uploads/2021/11/vw-jetta-450x253.jpeg'
                         />
                         <div className={styles.title}>
-                            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
+                            <h2>{title}</h2>
                         </div>
                     </div>
                 </Link>
 
                 <div className={styles.author}>
-                    <User />
+                    <User fullName={user.fullName} avatar={user.avatar} />
                 </div>
             </div>
             <div className={styles.text}>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium recusandae
-                    consequuntur officiis aperiam reprehenderit modi ex itaque omnis laborum
-                    dolores, deserunt et mollitia quae consequatur iste dolorum expedita tenetur
-                    explicabo?{' '}
-                </p>
+                <p>{replaceText()}</p>
             </div>
 
             <div className={styles.bottom}>
-                <PostTagsBlock />
-                <PostBottomBar comment={true} like={true} view={true} />
+                <PostTagsBlock tags={tags} />
+                <PostBottomBar comment={true} like={true} view={true} props={newObj} />
             </div>
 
-            {selectPost && <EditPost />}
-            {/* {showComment && (
-                <div className={styles.commentBlock}>
-                    {[...new Array(2)].map((item, i) => {
-                        return <Commentaries key={i} />;
-                    })}
-
-                    <div className='w-40 m-auto '>
-                        <Button loading={false} text={'Load more'} />
-                    </div>
-                </div>
-            )} */}
+            {user._id === userAuthId && selectPost && <EditPost />}
         </section>
     );
 };

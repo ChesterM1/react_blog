@@ -1,18 +1,17 @@
 import styles from './postTagsBlock.module.scss';
+import { TagsInterface } from './types';
 
-const PostTagsBlock = () => {
+const PostTagsBlock: React.FC<TagsInterface> = ({ tags }) => {
     return (
         <div className={styles.tags}>
             <ul>
-                <a href='#'>
-                    <li>#tag one</li>
-                </a>
-                <a href='#'>
-                    <li>#tag two</li>
-                </a>
-                <a href='#'>
-                    <li>#tag tree</li>
-                </a>
+                {tags.map((item, i) => {
+                    return (
+                        <a href='#' key={i}>
+                            <li>{item}</li>
+                        </a>
+                    );
+                })}
             </ul>
         </div>
     );

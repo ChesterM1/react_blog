@@ -33,18 +33,18 @@
                 }
             }
 
-            &:nth-child(2),
-            &:nth-child(3) {
-                cursor: pointer;
+        }
 
-                &:hover {
-                    img {
-                        transform: scale(1.2);
+        .active {
+            cursor: pointer;
 
-                    }
+            &:hover {
+                img {
+                    transform: scale(1.2);
+
                 }
-
             }
+
         }
     }
 }

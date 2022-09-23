@@ -1,17 +1,17 @@
 import styles from './login.module.scss';
 import icon from '../../../img/user.png';
 import { useEffect, useState } from 'react';
-import backAfterLogin from '../../../utils/backAfterLogin';
+import { useNavigate } from 'react-router-dom';
 import Input from '../Input/Input';
 import { InputEnum, YupErrorsResolve } from './types';
 import { loginSchemaValidate } from '../../../utils/validateSchema';
 import Button from '../../Button/Button';
 import ValidateErrorMessage from '../ValidateErrorMessage/ValidateErrorMessage';
 import ServerErrorMessage from '../ServerErrorMessage/ServerErrorMessage';
+import backAfterLogin from '../../../utils/backAfterLogin';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { userAuthFetch } from '../../../redux/slices/auth/auth';
 import { LoadStatus } from '../../../redux/slices/loadStatusTypes';
-import { useNavigate } from 'react-router-dom';
 import { serverErrorMessageCancel } from '../../../redux/slices/auth/auth';
 
 const inputField = [
@@ -62,6 +62,7 @@ const Login: React.FC = () => {
             })
             .then((res) => {
                 dispatch(userAuthFetch(res));
+                setInputErrorsMessage({ name: '', errors: '' });
             })
             .catch((err: YupErrorsResolve) => {
                 const errText = err.errors[0];
@@ -94,7 +95,11 @@ const Login: React.FC = () => {
                             const { name, errors } = inputErrorsMessage;
                             return (
                                 <div key={i}>
-                                    <Input input={item.input} label={item.label} />
+                                    <Input
+                                        input={item.input}
+                                        label={item.label}
+                                        error={item.input.name === name ? true : false}
+                                    />
                                     {item.input.name === name && (
                                         <ValidateErrorMessage message={errors} />
                                     )}

@@ -1,15 +1,13 @@
 import userIcon from '../../img/user.png';
 import styles from './user.module.scss';
+import { UserInterface } from './type';
 
-interface propsInterface {
-    size?: number;
-}
-const User: React.FC = () => {
+const User: React.FC<UserInterface> = ({ fullName, avatar }) => {
     return (
         <div className={styles.user}>
             <div>
-                <img src={userIcon} alt='user icon' />
-                <div className={styles.userName}>Joe Jordison</div>
+                <img src={avatar ? avatar : userIcon} alt='user icon' />
+                <div className={styles.userName}>{fullName}</div>
             </div>
         </div>
     );

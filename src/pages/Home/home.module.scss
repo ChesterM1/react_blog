@@ -4,7 +4,7 @@
     margin: 30px 10px 0 10px;
 
     .post__wrapper {
-        max-width: 68%;
+        width: 68%;
     }
 
     .tab {
@@ -38,7 +38,8 @@
     }
 
     .rightBar {
-        max-width: 30%;
+        width: 30%;
+        display: block;
     }
 
     .active {
@@ -51,7 +52,11 @@
     .main {
 
         .post__wrapper {
-            max-width: 100%;
+            width: 100%;
+        }
+
+        .rightBar {
+            display: none;
         }
 
         nav {

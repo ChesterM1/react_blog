@@ -22,7 +22,7 @@ const Commentaries = () => {
 
     return (
         <div className={styles.comment}>
-            <User />
+            <User fullName={'JOE JORDIOS'} />
             <div className={styles.text}>
                 <span>
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae numquam

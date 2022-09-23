@@ -10,4 +10,5 @@ export interface InputInterface {
         text: string;
         require?: boolean;
     };
+    error?: boolean;
 }
