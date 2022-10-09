@@ -4,28 +4,21 @@ import TagsBar from '../../components/TagsBar/TagsBar';
 import Commentaries from '../../components/Commentaries/Commentaries';
 import Post from '../../components/Post/Post';
 import MiniPosts from '../../components/Post/MiniPosts/MiniPosts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import RightInfoBar from '../../components/RightInfoBar/RightInfoBar';
 import SkeletonPost from '../../components/Post/SkeletonPost';
-import { useAppSelector, useAppDispatch } from '../../redux/store';
-import { fetchPosts } from '../../redux/slices/posts/posts';
-import { LoadStatus } from '../../redux/slices/loadStatusTypes';
+import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
 
 const tabsTitle = ['New Post', 'Popular Post'];
 
 const Home: React.FC = () => {
     const [activeTabs, setActiveTabs] = useState<number>(0);
-    const { status, allPosts } = useAppSelector((state) => state.posts);
-    const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(fetchPosts());
-    }, []);
+    const { data, isLoading, isFetching } = useGetPostsQuery('');
 
-    const PostRender =
-        status === LoadStatus.LOADING
-            ? [...new Array(4)].map((_, i) => <SkeletonPost key={i} />)
-            : allPosts.map((item, i) => <Post key={item._id} props={item} />);
+    const PostRender = isLoading
+        ? [...new Array(4)].map((_, i) => <SkeletonPost key={i} />)
+        : data?.map((item, i) => <Post key={item._id} props={item} />);
 
     return (
         <>
@@ -50,7 +43,7 @@ const Home: React.FC = () => {
                     <div>
                         {activeTabs === 0
                             ? PostRender
-                            : allPosts.map((item, i) => <Post key={item._id} props={item} />)}
+                            : data?.map((item, i) => <Post key={item._id} props={item} />)}
                     </div>
                 </div>
                 <div className={styles.rightBar}>

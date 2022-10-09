@@ -14,22 +14,25 @@ export interface Post {
     title: string;
     text: string;
     tags: string[];
+    imageUrl?: string;
     viewCount: number;
     createdAt: string;
     updatedAt: string;
     like: string[];
     user: User;
 }
-export interface PostsInterface {
-    allPosts: Post[];
-}
-
-export interface InitialState {
-    allPosts: Post[] | [];
-    status: LoadStatus.LOADING | LoadStatus.IDLE | LoadStatus.ERROR;
+export interface CreatePostArg {
+    image: File;
+    text: string;
+    title: string;
+    tags: string;
 }
 
 export interface LikePostAction {
     userId: string;
     postId: string;
+}
+
+export interface CreatePostDataResponse {
+    post: Post;
 }

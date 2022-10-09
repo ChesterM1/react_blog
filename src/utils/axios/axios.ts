@@ -2,7 +2,7 @@ import axiosLib, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { getLocalStorage } from '../serviceLocalStorage';
 
 const axios = axiosLib.create({
-    baseURL: 'http://localhost:4444/', //https://node-blog-api2.herokuapp.com/ //
+    baseURL: 'http://localhost:4444/', //https://node-blog-api2.herokuapp.com/ //http://localhost:4444/
 });
 
 axios.interceptors.request.use((config: AxiosRequestConfig<AxiosRequestHeaders>) => {

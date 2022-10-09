@@ -1,8 +1,9 @@
 import 'easymde/dist/easymde.min.css';
 import { useCallback, useMemo, useState } from 'react';
 import SimpleMDE from 'react-simplemde-editor';
+import { PropsInterface } from './types';
 
-const SimpleEditor = () => {
+const SimpleEditor: React.FC<PropsInterface> = ({ resetError }) => {
     const [textMde, setTextMde] = useState<string>();
     const optionsMDE = useMemo(
         () =>
@@ -24,7 +25,9 @@ const SimpleEditor = () => {
     const onChange = useCallback((value: string) => {
         setTextMde(value);
     }, []);
-    return <SimpleMDE value={textMde} onChange={onChange} options={optionsMDE} />;
+    return (
+        <SimpleMDE value={textMde} onChange={onChange} options={optionsMDE} onFocus={resetError} />
+    );
 };
 
 export default SimpleEditor;

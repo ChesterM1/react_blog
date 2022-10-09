@@ -3,17 +3,25 @@ import User from '../../User/User';
 import PostBottomBar from '../PostBottomBar/PostBottomBar';
 import PostTagsBlock from '../PostTagsBlock/PostTagsBlock';
 import EditPost from '../EditPost/EditPost';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import scrollTo from '../../../utils/scrollTo';
+import { useDeletePostMutation } from '../../../redux/slices/posts/postsApi';
 
 const FullPost = () => {
     const [edit, setEdit] = useState<boolean>(false);
+    const [deletePost] = useDeletePostMutation();
     const obj = {
         createdAt: '2022-08-17T02:40:48.873+00:00',
         updatedAt: '2022-08-17T02:40:48.873+00:00',
         viewCount: 0,
     };
+    const sectionRef = useRef<HTMLElement>(null);
+    useEffect(() => {
+        scrollTo(sectionRef);
+    }, []);
     return (
         <section
+            ref={sectionRef}
             className={styles.post}
             onMouseEnter={() => setEdit(true)}
             onMouseLeave={() => setEdit(false)}>
@@ -50,7 +58,7 @@ const FullPost = () => {
                     <PostTagsBlock tags={['#one', '#two', '#three']} />
                     <PostBottomBar comment={true} like={true} view={true} props={obj} />
                 </div>
-                {edit && <EditPost />}
+                {edit && <EditPost deletePost={() => deletePost('1')} />}
             </main>
         </section>
     );

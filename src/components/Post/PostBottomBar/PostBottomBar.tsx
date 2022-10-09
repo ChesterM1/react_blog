@@ -12,14 +12,13 @@ import { useAppSelector } from '../../../redux/store';
 const PostBottomBar: React.FC<BottomBarPropsInterface> = ({ comment, view, like, props }) => {
     const [showComment, setShowComment] = useState<boolean>(false);
     const { user, isAuth } = useAppSelector((state) => state.auth);
-    const { createdAt, updatedAt, viewCount, addLike, handleLIKE } = props;
+    const { createdAt, viewCount, addLike, handleLIKE } = props;
     const activeLike = handleLIKE?.find((elem) => elem === user._id);
     const clickLike = () => {
-        if (isAuth) {
-            addLike?.();
+        if (!isAuth) {
             return;
         }
-        return;
+        addLike?.();
     };
     return (
         <div className={styles.bottom}>

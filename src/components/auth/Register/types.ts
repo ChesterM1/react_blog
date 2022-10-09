@@ -4,10 +4,3 @@ export enum InputEnum {
     password = 'password',
     confirmPassword = 'confirmPassword',
 }
-
-export interface YupErrorsResolve {
-    name: string;
-    path: string;
-    errors: string;
-    inner: string[];
-}

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Button from '../../Button/Button';
 import Commentaries from '../../Commentaries/Commentaries';
 import styles from './commentBlock.module.scss';
-import { commentSchemaValidate } from '../../../utils/validateSchema';
+import { commentSchemaValidate } from '../../../utils/validateSchema/validateSchema';
 
 const CommentBlock = () => {
     const [areaValue, setAreaValue] = useState('');
