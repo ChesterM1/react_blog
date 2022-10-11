@@ -4,7 +4,7 @@ import TagsBar from '../../components/TagsBar/TagsBar';
 import Commentaries from '../../components/Commentaries/Commentaries';
 import Post from '../../components/Post/Post';
 import MiniPosts from '../../components/Post/MiniPosts/MiniPosts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RightInfoBar from '../../components/RightInfoBar/RightInfoBar';
 import SkeletonPost from '../../components/Post/SkeletonPost';
 import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
@@ -14,12 +14,16 @@ const tabsTitle = ['New Post', 'Popular Post'];
 const Home: React.FC = () => {
     const [activeTabs, setActiveTabs] = useState<number>(0);
 
-    const { data, isLoading, isFetching } = useGetPostsQuery('');
+    const { data, isLoading, isFetching, refetch } = useGetPostsQuery('');
 
     const PostRender = isLoading
         ? [...new Array(4)].map((_, i) => <SkeletonPost key={i} />)
         : data?.map((item, i) => <Post key={item._id} props={item} />);
 
+    useEffect(() => {
+        const id = setInterval(refetch, 60000);
+        return () => clearInterval(id);
+    }, []);
     return (
         <>
             <Header />

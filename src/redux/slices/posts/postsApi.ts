@@ -6,7 +6,7 @@ import { CreatePostDataResponse, LikePostAction, Post } from './postTypes';
 export const postsApi = createApi({
     reducerPath: 'postsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:4444/', //https://node-blog-api2.herokuapp.com/  //http://localhost:4444/
+        baseUrl: 'https://node-blog-api2.herokuapp.com/', //https://node-blog-api2.herokuapp.com/  //http://localhost:4444/
         prepareHeaders: (headers: Headers, { getState }) => {
             const token =
                 (getState() as RootState).auth.user.token || getLocalStorage('user')?.token;
@@ -33,6 +33,8 @@ export const postsApi = createApi({
             async onQueryStarted({ postId, userId }, { queryFulfilled, dispatch }) {
                 const patchResult = dispatch(
                     postsApi.util.updateQueryData('getPosts', '', (draft) => {
+                        console.log(postId, draft);
+
                         const mutationPost = draft.find((post) => post._id === postId);
                         const likeInPost = mutationPost?.like.find((id) => id === userId);
                         if (mutationPost && likeInPost) {
@@ -65,6 +67,11 @@ export const postsApi = createApi({
             }),
             invalidatesTags: ['Posts'],
         }),
+        getOnePost: builder.query<Post, string>({
+            query: (postId) => ({
+                url: `posts/${postId}`,
+            }),
+        }),
     }),
 });
 
@@ -73,4 +80,5 @@ export const {
     useLikePostMutation,
     useCreatePostMutation,
     useDeletePostMutation,
+    useGetOnePostQuery,
 } = postsApi;

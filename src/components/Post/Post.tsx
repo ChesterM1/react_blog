@@ -37,10 +37,12 @@ const Post: React.FC<PostInterface> = ({ props }) => {
     };
 
     const replaceText = () => {
-        if (text.length > 350) {
-            return text.substring(0, 350) + '...';
+        const regex = /!\[\w*]\(\w.*\)/;
+        const slice = text.replace(regex, '');
+        if (slice.length > 350) {
+            return slice.substring(0, 350) + '...';
         }
-        return text;
+        return slice;
     };
 
     return (
@@ -49,12 +51,12 @@ const Post: React.FC<PostInterface> = ({ props }) => {
             onMouseEnter={() => setSelectPost(true)}
             onMouseLeave={() => setSelectPost(false)}>
             <div>
-                <Link to='post/1'>
+                <Link to={`post/${_id}`}>
                     <div className={styles.head}>
                         {imageUrl && (
                             <img
                                 // src='https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg'
-                                src={`http://localhost:4444${imageUrl}`}
+                                src={`https://node-blog-api2.herokuapp.com${imageUrl}`}
                                 alt='post pic'
                                 // src='https://plc.ua/wp-content/uploads/2021/11/vw-jetta-450x253.jpeg'
                             />

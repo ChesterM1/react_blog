@@ -41,6 +41,7 @@ const CommentBlock = () => {
                 <h3>Commentaries</h3>
                 <div className={styles.areaWrapper} onClick={areaFocus}>
                     <textarea
+                        // disabled
                         ref={refArea}
                         rows={1}
                         name='comment'

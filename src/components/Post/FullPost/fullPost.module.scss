@@ -12,6 +12,13 @@
         color: rgb(79, 78, 78);
         position: relative;
         z-index: 7;
+
+        img {
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            padding: 10px 0;
+        }
     }
 
     &.bar {

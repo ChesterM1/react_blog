@@ -1,24 +1,56 @@
 import styles from './fullPost.module.scss';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import User from '../../User/User';
 import PostBottomBar from '../PostBottomBar/PostBottomBar';
 import PostTagsBlock from '../PostTagsBlock/PostTagsBlock';
 import EditPost from '../EditPost/EditPost';
-import { useEffect, useRef, useState } from 'react';
+import {
+    useDeletePostMutation,
+    useGetOnePostQuery,
+    useLikePostMutation,
+} from '../../../redux/slices/posts/postsApi';
+import { PropsInterface } from './types';
+import moment from 'moment';
+import { useAppSelector } from '../../../redux/store';
 import scrollTo from '../../../utils/scrollTo';
-import { useDeletePostMutation } from '../../../redux/slices/posts/postsApi';
 
-const FullPost = () => {
+const FullPost: React.FC<PropsInterface> = ({ post }) => {
+    const { _id, createdAt, updatedAt, imageUrl, like, tags, text, title, user, viewCount } = post;
+    const { _id: userId } = useAppSelector((store) => store.auth.user);
     const [edit, setEdit] = useState<boolean>(false);
     const [deletePost] = useDeletePostMutation();
-    const obj = {
-        createdAt: '2022-08-17T02:40:48.873+00:00',
-        updatedAt: '2022-08-17T02:40:48.873+00:00',
-        viewCount: 0,
+    const [likePost] = useLikePostMutation();
+    const navigate = useNavigate();
+    useGetOnePostQuery(_id);
+
+    const bottomBarProps = {
+        createdAt: moment(createdAt).fromNow(),
+        updatedAt: moment(updatedAt).fromNow(),
+        viewCount: viewCount,
+        handleLIKE: like,
+        addLike: () =>
+            likePost({
+                postId: _id,
+                userId,
+            }),
     };
+
+    const editPost = userId === user._id;
+
+    const handleDeletePost = () => {
+        if (window.confirm('Remove this Post ?')) {
+            deletePost(_id);
+            navigate('/');
+        }
+    };
+
     const sectionRef = useRef<HTMLElement>(null);
     useEffect(() => {
-        scrollTo(sectionRef);
+        window.scrollTo(0, 0);
     }, []);
+
     return (
         <section
             ref={sectionRef}
@@ -27,38 +59,26 @@ const FullPost = () => {
             onMouseLeave={() => setEdit(false)}>
             <main>
                 <div className={styles.head}>
-                    <h1>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus,
-                        vero?
-                    </h1>
+                    <h1>{title}</h1>
                     <div className={styles.imgBlock}>
                         <img
                             className={styles.img}
-                            src='https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGNhcnN8ZW58MHx8MHx8&w=1000&q=80'
+                            src={`https://node-blog-api2.herokuapp.com${imageUrl}`}
                             // src='https://img1.akspic.ru/crops/5/3/4/7/6/167435/167435-otrazhenie-legkovyye_avtomobili-ios-shina-koleso-3840x2160.jpg'
                             alt='doge challenger'
                         />
-                        <User fullName={'Joe Jordison'} />
+                        <User fullName={user.fullName} />
                     </div>
                 </div>
 
                 <article>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim voluptatum illum
-                    maiores quas, sequi, labore ducimus iure aliquid quaerat debitis molestias.
-                    Veritatis, repellendus nobis! Suscipit optio aspernatur distinctio iure nihil,
-                    alias reiciendis dolor ex ad doloribus? Architecto ab eum reprehenderit fugiat
-                    voluptates neque cumque, perspiciatis saepe asperiores sed odit praesentium hic
-                    tempora dicta molestias officia culpa quae at autem! Praesentium doloremque
-                    tenetur quod! Consequatur et exercitationem quae reprehenderit vero qui facilis
-                    est hic in soluta suscipit amet aliquid quo pariatur numquam rerum, id cumque
-                    eos? Explicabo soluta molestiae totam, maxime sunt voluptatem vero, cumque
-                    consequatur commodi voluptas vel labore odio?
+                    <ReactMarkdown children={text} />
                 </article>
                 <div className={styles.bottom}>
-                    <PostTagsBlock tags={['#one', '#two', '#three']} />
-                    <PostBottomBar comment={true} like={true} view={true} props={obj} />
+                    <PostTagsBlock tags={tags} />
+                    <PostBottomBar comment={true} like={true} view={true} props={bottomBarProps} />
                 </div>
-                {edit && <EditPost deletePost={() => deletePost('1')} />}
+                {edit && editPost && <EditPost deletePost={handleDeletePost} />}
             </main>
         </section>
     );
