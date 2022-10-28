@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import Register from './components/auth/Register/Register';
 import FullPostPage from './pages/FullPostPage/FullPostPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
+import EditPostPage from './pages/EditPostPage/EditPostPage';
 
 function App() {
     return (
@@ -11,8 +12,9 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/post/:id' element={<FullPostPage />} />
-            <Route path='/post/create' element={<CreatePostPage />} />
+            <Route path='/posts/:id' element={<FullPostPage />} />
+            <Route path='/posts/create' element={<CreatePostPage />} />
+            <Route path='/posts/:id/edit' element={<EditPostPage />} />
         </Routes>
     );
 }

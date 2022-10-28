@@ -28,4 +28,5 @@ export interface BottomBarPropsInterface {
     view: boolean;
     like?: boolean;
     props: FetchProps;
+    scrollToComment?: () => void;
 }

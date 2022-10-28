@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
 import auth from './slices/auth/auth';
 import { postsApi } from './slices/posts/postsApi';
+import scrollToComment from './slices/scrollToComment/scrollToComment';
 
 export const store = configureStore({
     reducer: {
         auth,
         [postsApi.reducerPath]: postsApi.reducer,
+        scrollToComment,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postsApi.middleware),
 });

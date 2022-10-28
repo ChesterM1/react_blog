@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getLocalStorage } from '../../../utils/serviceLocalStorage';
 import { RootState } from '../../store';
-import { CreatePostDataResponse, LikePostAction, Post } from './postTypes';
+import { CreatePostDataResponse, LikePostAction, Post, EditPostPayload } from './postTypes';
+const URL = process.env.REACT_APP_BASE_URL;
 
 export const postsApi = createApi({
     reducerPath: 'postsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://node-blog-api2.herokuapp.com/', //https://node-blog-api2.herokuapp.com/  //http://localhost:4444/
+        baseUrl: URL,
         prepareHeaders: (headers: Headers, { getState }) => {
             const token =
                 (getState() as RootState).auth.user.token || getLocalStorage('user')?.token;
@@ -22,7 +23,8 @@ export const postsApi = createApi({
             query: () => ({
                 url: 'posts',
             }),
-            providesTags: ['Posts'],
+            providesTags: (result) =>
+                result ? result.map(({ _id }) => ({ type: 'Posts', id: _id })) : ['Posts'],
         }),
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
@@ -33,8 +35,6 @@ export const postsApi = createApi({
             async onQueryStarted({ postId, userId }, { queryFulfilled, dispatch }) {
                 const patchResult = dispatch(
                     postsApi.util.updateQueryData('getPosts', '', (draft) => {
-                        console.log(postId, draft);
-
                         const mutationPost = draft.find((post) => post._id === postId);
                         const likeInPost = mutationPost?.like.find((id) => id === userId);
                         if (mutationPost && likeInPost) {
@@ -71,6 +71,15 @@ export const postsApi = createApi({
             query: (postId) => ({
                 url: `posts/${postId}`,
             }),
+            providesTags: (result, err, id) => [{ type: 'Posts', id: id }],
+        }),
+        editPost: builder.mutation<CreatePostDataResponse, EditPostPayload>({
+            query: ({ formData, postId }) => ({
+                url: `posts/${postId}`,
+                method: 'PATCH',
+                body: formData,
+            }),
+            invalidatesTags: ['Posts'],
         }),
     }),
 });
@@ -81,4 +90,5 @@ export const {
     useCreatePostMutation,
     useDeletePostMutation,
     useGetOnePostQuery,
+    useEditPostMutation,
 } = postsApi;

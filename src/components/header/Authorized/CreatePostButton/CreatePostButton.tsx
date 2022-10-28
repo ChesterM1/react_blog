@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CreatePostButton = () => {
     return (
-        <Link to='/post/create'>
+        <Link to='/posts/create'>
             <div className={styles.button}>
                 <img src={icon} alt='post icon' />
                 <span>New post</span>

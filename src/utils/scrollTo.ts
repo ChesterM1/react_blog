@@ -1,25 +1,34 @@
+type ScrollToElem = 'start' | 'end' | 'center';
+
 function scrollTo<T extends React.RefObject<HTMLElement>>(
     refElem: T,
-    scrollSpeed?: 'auto' | 'smooth'
+    scrollToElem?: ScrollToElem
 ): void;
-function scrollTo<T extends React.RefObject<HTMLElement>[]>(
+
+function scrollTo<T extends React.RefObject<HTMLElement> | React.RefObject<HTMLElement>[]>(
     refElem: T,
-    dataName: string,
-    scrollSpeed?: 'auto' | 'smooth'
+    dataName?: string,
+    scrollToElem?: ScrollToElem
 ): void;
 function scrollTo<T extends React.RefObject<HTMLElement> | React.RefObject<HTMLElement>[]>(
     refElem: T,
     dataName?: string,
-    scrollSpeed: 'auto' | 'smooth' = 'auto'
+    scrollToElem: ScrollToElem = 'start'
 ): void {
     if (Array.isArray(refElem)) {
         for (const key of refElem) {
             if (key && key.current && key.current.dataset.element === dataName) {
-                key.current.scrollIntoView({ behavior: scrollSpeed, block: 'end' });
+                key.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: scrollToElem,
+                });
             }
         }
     } else {
-        refElem?.current?.scrollIntoView({ behavior: scrollSpeed, block: 'end' });
+        refElem?.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: scrollToElem,
+        });
     }
 }
 export default scrollTo;

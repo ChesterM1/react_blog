@@ -1,8 +1,9 @@
 import axiosLib, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import { getLocalStorage } from '../serviceLocalStorage';
+const URL = process.env.REACT_APP_BASE_URL;
 
 const axios = axiosLib.create({
-    baseURL: 'https://node-blog-api2.herokuapp.com/', //https://node-blog-api2.herokuapp.com/ //http://localhost:4444/
+    baseURL: URL,
 });
 
 axios.interceptors.request.use((config: AxiosRequestConfig<AxiosRequestHeaders>) => {

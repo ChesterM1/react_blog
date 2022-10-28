@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 import SimpleMDE from 'react-simplemde-editor';
 import { PropsInterface } from './types';
 
-const SimpleEditor: React.FC<PropsInterface> = ({ resetError }) => {
+const SimpleEditor: React.FC<PropsInterface> = ({ resetError, defaultValue }) => {
     const [textMde, setTextMde] = useState<string>();
     const optionsMDE = useMemo(
         () =>
@@ -26,7 +26,12 @@ const SimpleEditor: React.FC<PropsInterface> = ({ resetError }) => {
         setTextMde(value);
     }, []);
     return (
-        <SimpleMDE value={textMde} onChange={onChange} options={optionsMDE} onFocus={resetError} />
+        <SimpleMDE
+            value={defaultValue ?? textMde}
+            onChange={onChange}
+            options={optionsMDE}
+            onFocus={resetError}
+        />
     );
 };
 

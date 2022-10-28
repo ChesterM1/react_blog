@@ -36,3 +36,8 @@ export interface LikePostAction {
 export interface CreatePostDataResponse {
     post: Post;
 }
+
+export interface EditPostPayload {
+    formData: FormData;
+    postId: string;
+}

@@ -1,5 +1,5 @@
 import styles from './fullPost.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import User from '../../User/User';
@@ -14,7 +14,7 @@ import {
 import { PropsInterface } from './types';
 import moment from 'moment';
 import { useAppSelector } from '../../../redux/store';
-import scrollTo from '../../../utils/scrollTo';
+const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const FullPost: React.FC<PropsInterface> = ({ post }) => {
     const { _id, createdAt, updatedAt, imageUrl, like, tags, text, title, user, viewCount } = post;
@@ -46,14 +46,8 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
         }
     };
 
-    const sectionRef = useRef<HTMLElement>(null);
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
     return (
         <section
-            ref={sectionRef}
             className={styles.post}
             onMouseEnter={() => setEdit(true)}
             onMouseLeave={() => setEdit(false)}>
@@ -61,12 +55,13 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
                 <div className={styles.head}>
                     <h1>{title}</h1>
                     <div className={styles.imgBlock}>
-                        <img
-                            className={styles.img}
-                            src={`https://node-blog-api2.herokuapp.com${imageUrl}`}
-                            // src='https://img1.akspic.ru/crops/5/3/4/7/6/167435/167435-otrazhenie-legkovyye_avtomobili-ios-shina-koleso-3840x2160.jpg'
-                            alt='doge challenger'
-                        />
+                        {imageUrl && (
+                            <img
+                                className={styles.img}
+                                src={`${IMG_URL}${imageUrl}`}
+                                alt='post img'
+                            />
+                        )}
                         <User fullName={user.fullName} />
                     </div>
                 </div>
@@ -78,7 +73,7 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
                     <PostTagsBlock tags={tags} />
                     <PostBottomBar comment={true} like={true} view={true} props={bottomBarProps} />
                 </div>
-                {edit && editPost && <EditPost deletePost={handleDeletePost} />}
+                {edit && editPost && <EditPost deletePost={handleDeletePost} id={_id} />}
             </main>
         </section>
     );

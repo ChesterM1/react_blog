@@ -2,16 +2,19 @@ import styles from './createPost.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../../Button/Button';
 import ImgSkeleton from './ImgSkeleton';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import SimpleEditor from '../SimpleEditor/SimpleEditor';
 import { createPostSchemaValidate } from '../../../utils/validateSchema/validateSchema';
 import { YupErrorsResolve } from '../../../utils/validateSchema/type';
 import ValidateErrorMessage from '../../auth/ValidateErrorMessage/ValidateErrorMessage';
 import scrollTo from '../../../utils/scrollTo';
-import { useCreatePostMutation } from '../../../redux/slices/posts/postsApi';
+import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
+import { PropsInterface } from './types';
+const IMG_URL = process.env.REACT_APP_IMG_URL;
 
-const CreatePost = () => {
-    const [blobLinkImg, setBlobLinkImg] = useState<string>('');
+const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) => {
+    const editPostImg = imageUrl ? `${IMG_URL}${imageUrl}` : '';
+    const [blobLinkImg, setBlobLinkImg] = useState<string>(editPostImg);
     const [inputValueImg, setInputValueImg] = useState<string>('');
     const [fieldError, setFieldError] = useState({
         name: '',
@@ -23,8 +26,11 @@ const CreatePost = () => {
     const textRef = useRef<HTMLDivElement>(null);
     const imageRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const [createPost, { data, isLoading, isSuccess }] = useCreatePostMutation();
+    const [editPost, { data: editData, isLoading: editIsLoading, isSuccess: editIsSuccess }] =
+        useEditPostMutation();
 
     const triggeredInput = () => {
         if (fileImgRef && fileImgRef.current) {
@@ -44,7 +50,6 @@ const CreatePost = () => {
         }
         setBlobLinkImg('');
         setInputValueImg('');
-        return;
     };
 
     const errorReset = () => {
@@ -57,6 +62,12 @@ const CreatePost = () => {
             setInputValueImg('');
         }
     };
+    const editImagePath = (formData: FormData, id: string) => {
+        if (imageUrl && blobLinkImg && !inputValueImg) {
+            formData.set('image', imageUrl);
+        }
+        editPost({ formData, postId: id });
+    };
 
     const submit = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -64,7 +75,7 @@ const CreatePost = () => {
         const formData = new FormData(target);
         formData.append('text', target[4].value);
         const formProps = Object.fromEntries(formData) as {
-            image: File;
+            image: File | string;
             text: string;
             title: string;
             tags: string;
@@ -78,19 +89,21 @@ const CreatePost = () => {
                 tags: formProps.tags,
             })
             .then(() => {
-                createPost(formData);
+                id ? editImagePath(formData, id) : createPost(formData);
             })
             .catch((err: YupErrorsResolve) => {
                 setFieldError({ name: err.path, error: err.errors[0] });
-                scrollTo([titleRef, textRef, tagsRef, imageRef], err.path, 'smooth');
+                scrollTo([titleRef, textRef, tagsRef, imageRef], err.path, 'center');
             });
     };
     useEffect(() => {
         if (isSuccess && data) {
-            navigate(`/post/${data.post._id}`);
+            navigate(`/posts/${data.post._id}`);
+        } else if (editData && editIsSuccess) {
+            navigate(`/posts/${id}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isSuccess]);
+    }, [isSuccess, editIsSuccess]);
 
     return (
         <section className={styles.create}>
@@ -132,6 +145,7 @@ const CreatePost = () => {
                             data-element={'title'}
                             ref={titleRef}
                             onFocus={errorReset}
+                            defaultValue={title}
                             name='title'
                             type='text'
                             placeholder='Enter the title'
@@ -145,6 +159,7 @@ const CreatePost = () => {
                             data-element={'tags'}
                             ref={tagsRef}
                             onFocus={errorReset}
+                            defaultValue={tags}
                             name='tags'
                             type='text'
                             placeholder='Add #tags'
@@ -166,10 +181,14 @@ const CreatePost = () => {
                             ? { border: '1px solid red', borderRadius: '5px' }
                             : { border: '1px solid #cfd4d9' }
                     }>
-                    <SimpleEditor resetError={errorReset} />
+                    <SimpleEditor resetError={errorReset} defaultValue={text} />
                 </div>
                 <div className={styles.buttons}>
-                    <Button text={'Submit'} type={'submit'} loading={isLoading ? true : false} />
+                    <Button
+                        text={'Submit'}
+                        type={'submit'}
+                        loading={isLoading || editIsLoading ? true : false}
+                    />
                     <Link to={'/'} className={styles.cancel}>
                         <span>Cancel</span>
                     </Link>
