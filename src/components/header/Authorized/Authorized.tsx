@@ -25,7 +25,7 @@ const Authorized: React.FC = () => {
             <CreatePostButton />
             <menu>
                 <div className={styles.user} ref={dropDownRef} onClick={triggerDropDown}>
-                    <img className={styles.img} src={user.avatar || userICon} alt='user icon' />
+                    <img className={styles.img} src={user?.avatar || userICon} alt='user icon' />
                     <img className={styles.arrow} src={arrow} alt='arrow icon' />
                 </div>
                 {dropDown && (

@@ -20,6 +20,7 @@ export const axiosBaseQuery =
             return {
                 status: err.response?.status,
                 data: err.response?.data || err.message,
+                meta: err.code,
             };
         }
     };

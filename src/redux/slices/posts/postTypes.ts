@@ -1,5 +1,3 @@
-import { LoadStatus } from '../loadStatusTypes';
-
 interface User {
     _id: string;
     fullName: string;
@@ -20,6 +18,12 @@ export interface Post {
     updatedAt: string;
     like: string[];
     user: User;
+}
+
+export interface GetAllPostResponse {
+    data: Post[];
+    sendPost: 4;
+    totalPost: 6;
 }
 export interface CreatePostArg {
     image: File;

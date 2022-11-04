@@ -2,12 +2,11 @@ import CreatePost from '../../components/Post/CreatePost/CreatePost';
 import Header from '../../components/Header/Header';
 import SkeletonCreatePost from '../../components/Post/CreatePost/SkeletonCreatePost';
 import { useParams } from 'react-router-dom';
-import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
+import { useGetOnePostQuery } from '../../redux/slices/posts/postsApi';
 
 const EditPostPage = () => {
     const { id } = useParams();
-    const { data, isLoading, isError } = useGetPostsQuery('');
-    const onePost = data?.find((post) => post._id === id);
+    const { data: posts, isLoading, isError } = useGetOnePostQuery(id as string);
 
     return (
         <div>
@@ -17,10 +16,10 @@ const EditPostPage = () => {
                     <SkeletonCreatePost />
                 ) : (
                     <CreatePost
-                        title={onePost?.title}
-                        tags={onePost?.tags.join(', ')}
-                        text={onePost?.text}
-                        imageUrl={onePost?.imageUrl}
+                        title={posts?.title}
+                        tags={posts?.tags.join(', ')}
+                        text={posts?.text}
+                        imageUrl={posts?.imageUrl}
                     />
                 )}
             </div>

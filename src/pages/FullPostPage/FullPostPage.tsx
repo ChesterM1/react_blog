@@ -14,8 +14,10 @@ import { cancelToComment } from '../../redux/slices/scrollToComment/scrollToComm
 
 const FullPostPage = () => {
     const { id } = useParams();
-    const { data, isLoading, isError } = useGetPostsQuery('');
-    const onePost = data?.find((post) => post._id === id);
+    // const { data: posts, isLoading, isError } = useGetPostsQuery(4);
+    // const onePost = posts?.data?.find((post) => post._id === id);
+    const { data: onePost, isLoading, isError } = useGetOnePostQuery(id as string);
+
     const { scrollToComment } = useAppSelector((state) => state.scrollToComment);
     const dispatch = useAppDispatch();
     const commentBlock = useRef<HTMLDivElement>(null);

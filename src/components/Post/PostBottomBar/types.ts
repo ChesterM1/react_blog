@@ -11,16 +11,7 @@ import { LikePostAction, Post } from '../../../redux/slices/posts/postTypes';
 interface FetchProps {
     viewCount: number;
     createdAt: string;
-    addLike?: () => MutationActionCreatorResult<
-        MutationDefinition<
-            LikePostAction,
-            BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-            'Posts',
-            Post,
-            'postsApi'
-        >
-    >;
-
+    addLike?: () => void;
     handleLIKE?: string[];
 }
 export interface BottomBarPropsInterface {

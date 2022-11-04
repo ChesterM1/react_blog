@@ -1,9 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../../utils/axios/axios';
 import { LoadStatus } from '../loadStatusTypes';
 import { InitialState, LoginFetch, RegisterFetch } from './authTypes';
 import { saveLocalStorage } from '../../../utils/serviceLocalStorage';
 import { AxiosError } from 'axios';
+import { User } from './authTypes';
 
 export const userAuthFetch = createAsyncThunk(
     'user/fetching',
@@ -38,15 +39,7 @@ export const userAuthFetch = createAsyncThunk(
 );
 
 const initialState: InitialState = {
-    user: {
-        _id: '',
-        token: '',
-        fullName: '',
-        email: '',
-        avatar: '',
-        createdAt: '',
-        updatedAt: '',
-    },
+    user: null,
     status: LoadStatus.IDLE,
     serverErrorMessage: '',
     isAuth: false,
@@ -58,6 +51,14 @@ export const auth = createSlice({
     reducers: {
         serverErrorMessageCancel(state) {
             state.serverErrorMessage = '';
+        },
+        authorization(state, { payload }: PayloadAction<User>) {
+            state.user = payload;
+            state.isAuth = true;
+        },
+        removeUserFields(state) {
+            state.isAuth = false;
+            state.user = null;
         },
     },
     extraReducers: (builder) => {
@@ -81,4 +82,4 @@ export const auth = createSlice({
 
 export default auth.reducer;
 
-export const { serverErrorMessageCancel } = auth.actions;
+export const { serverErrorMessageCancel, authorization, removeUserFields } = auth.actions;

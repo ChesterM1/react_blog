@@ -18,7 +18,7 @@ const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const FullPost: React.FC<PropsInterface> = ({ post }) => {
     const { _id, createdAt, updatedAt, imageUrl, like, tags, text, title, user, viewCount } = post;
-    const { _id: userId } = useAppSelector((store) => store.auth.user);
+    const userId = useAppSelector((store) => store.auth.user?._id);
     const [edit, setEdit] = useState<boolean>(false);
     const [deletePost] = useDeletePostMutation();
     const [likePost] = useLikePostMutation();
@@ -33,7 +33,7 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
         addLike: () =>
             likePost({
                 postId: _id,
-                userId,
+                userId: userId ?? '',
             }),
     };
 

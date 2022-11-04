@@ -15,7 +15,7 @@ export interface User {
 }
 
 export interface InitialState {
-    user: User;
+    user: User | null;
     status: LoadStatus;
     serverErrorMessage: string;
     isAuth: boolean;

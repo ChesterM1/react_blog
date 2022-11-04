@@ -13,3 +13,7 @@ export const getLocalStorage = (name: string): User | undefined => {
         return undefined;
     }
 };
+
+export const removeLocalStorage = (name: string): void => {
+    window.localStorage.removeItem(name);
+};

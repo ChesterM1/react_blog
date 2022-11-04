@@ -1,7 +1,5 @@
 import styles from './post.module.scss';
-import Commentaries from '../Commentaries/Commentaries';
 import User from '../User/User';
-import Button from '../Button/Button';
 import PostBottomBar from './PostBottomBar/PostBottomBar';
 import EditPost from './EditPost/EditPost';
 import { useState } from 'react';
@@ -12,14 +10,13 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 import { useLikePostMutation, useDeletePostMutation } from '../../redux/slices/posts/postsApi';
-import scrollTo from '../../utils/scrollTo';
 import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const Post: React.FC<PostInterface> = ({ props }) => {
     const { _id, title, text, tags, viewCount, createdAt, user, like, imageUrl } = props;
     const [selectPost, setSelectPost] = useState<boolean>(false);
-    const userAuthId = useAppSelector((state) => state.auth.user._id);
+    const userAuthId = useAppSelector((state) => state.auth.user?._id);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [likePost] = useLikePostMutation();
@@ -37,7 +34,7 @@ const Post: React.FC<PostInterface> = ({ props }) => {
         addLike: () =>
             likePost({
                 postId: _id,
-                userId: userAuthId,
+                userId: userAuthId ?? '',
             }),
     };
     const scrollToComment = () => {
@@ -67,6 +64,7 @@ const Post: React.FC<PostInterface> = ({ props }) => {
                                 // src='https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mike-b-170811.jpg&fm=jpg'
                                 src={`${IMG_URL}${imageUrl}`}
                                 alt='post pic'
+                                loading='lazy'
                                 // src='https://plc.ua/wp-content/uploads/2021/11/vw-jetta-450x253.jpeg'
                             />
                         )}

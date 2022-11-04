@@ -1,54 +1,73 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { getLocalStorage } from '../../../utils/serviceLocalStorage';
-import { RootState } from '../../store';
-import { CreatePostDataResponse, LikePostAction, Post, EditPostPayload } from './postTypes';
-const URL = process.env.REACT_APP_BASE_URL;
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { axiosBaseQuery } from '../../../utils/axios/axiosBaseQuery';
+import store from '../../store';
+import {
+    CreatePostDataResponse,
+    LikePostAction,
+    Post,
+    EditPostPayload,
+    GetAllPostResponse,
+} from './postTypes';
 
 export const postsApi = createApi({
     reducerPath: 'postsApi',
-    baseQuery: fetchBaseQuery({
-        baseUrl: URL,
-        prepareHeaders: (headers: Headers, { getState }) => {
-            const token =
-                (getState() as RootState).auth.user.token || getLocalStorage('user')?.token;
-            if (token) {
-                headers.set('Authorization', token);
-            }
-            return headers;
-        },
-    }),
+    baseQuery: axiosBaseQuery(),
     tagTypes: ['Posts'],
     endpoints: (builder) => ({
-        getPosts: builder.query<Post[], string>({
-            query: () => ({
-                url: 'posts',
+        getPosts: builder.query<GetAllPostResponse, number | void>({
+            query: (limit) => ({
+                url: `posts`,
+                params: {
+                    limit,
+                },
             }),
             providesTags: (result) =>
-                result ? result.map(({ _id }) => ({ type: 'Posts', id: _id })) : ['Posts'],
+                result?.data
+                    ? result?.data.map(({ _id }) => ({ type: 'Posts', id: _id }))
+                    : ['Posts'],
         }),
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
                 url: `posts/like/${postId}`,
                 method: 'POST',
-                body: { userId, postId },
+                data: { userId, postId },
             }),
             async onQueryStarted({ postId, userId }, { queryFulfilled, dispatch }) {
+                const postLimit = store.getState().pagination.getPostCount;
+                const test = store.getState();
+                console.log(test);
+
                 const patchResult = dispatch(
-                    postsApi.util.updateQueryData('getPosts', '', (draft) => {
-                        const mutationPost = draft.find((post) => post._id === postId);
-                        const likeInPost = mutationPost?.like.find((id) => id === userId);
-                        if (mutationPost && likeInPost) {
-                            mutationPost.like = mutationPost.like.filter((id) => id !== userId);
+                    postsApi.util.updateQueryData(
+                        'getPosts',
+                        postLimit,
+                        (draft: GetAllPostResponse) => {
+                            const mutationPost = draft?.data.find((post) => post._id === postId);
+                            const likeInPost = mutationPost?.like.find((id) => id === userId);
+                            if (mutationPost && likeInPost) {
+                                mutationPost.like = mutationPost.like.filter((id) => id !== userId);
+                            } else {
+                                mutationPost?.like.push(userId);
+                            }
+                        }
+                    )
+                );
+
+                const patchResultOne = dispatch(
+                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                        const likeInPost = draft.like?.find((id) => id === userId);
+                        if (likeInPost) {
+                            draft.like = draft.like.filter((id) => id !== userId);
                         } else {
-                            mutationPost?.like.push(userId);
+                            draft.like.push(userId);
                         }
                     })
                 );
 
-                try {
-                    await queryFulfilled;
-                } catch (e) {
+                const response = await queryFulfilled;
+                if (response.meta) {
                     patchResult.undo();
+                    patchResultOne.undo();
                 }
             },
         }),
@@ -56,7 +75,7 @@ export const postsApi = createApi({
             query: (formData) => ({
                 url: 'posts/',
                 method: 'POST',
-                body: formData,
+                data: formData,
             }),
             invalidatesTags: ['Posts'],
         }),
@@ -77,7 +96,7 @@ export const postsApi = createApi({
             query: ({ formData, postId }) => ({
                 url: `posts/${postId}`,
                 method: 'PATCH',
-                body: formData,
+                data: formData,
             }),
             invalidatesTags: ['Posts'],
         }),
