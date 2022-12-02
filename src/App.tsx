@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/auth/Login/Login';
-import Home from './pages/Home/Home';
+import Home from './pages/PostsPage/PostsPage';
 import Register from './components/auth/Register/Register';
 import FullPostPage from './pages/FullPostPage/FullPostPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';
@@ -9,6 +9,8 @@ import { getLocalStorage } from './utils/serviceLocalStorage';
 import { useAppDispatch } from './redux/store';
 import { authorization } from './redux/slices/auth/auth';
 import { useEffect } from 'react';
+import Layout from './components/Layout/Layout';
+import PostsPage from './pages/PostsPage/PostsPage';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -25,10 +27,13 @@ function App() {
     }, []);
     return (
         <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/' element={<Layout />}>
+                <Route path='/posts/:id' element={<FullPostPage />} />
+                <Route path='/' element={<PostsPage />} />
+            </Route>
+            {/* <Route path='/' element={<Home />} /> */}
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/posts/:id' element={<FullPostPage />} />
             <Route path='/posts/create' element={<CreatePostPage />} />
             <Route path='/posts/:id/edit' element={<EditPostPage />} />
         </Routes>

@@ -15,9 +15,10 @@ const TagsBar = () => {
     };
     const { data, isLoading } = useGetTagsQuery(4);
 
-    if (true) {
+    if (isLoading) {
         return <TagsBarSkeleton />;
     }
+
     return (
         <div className={styles.tagsBar}>
             <h3>Popular Tags</h3>

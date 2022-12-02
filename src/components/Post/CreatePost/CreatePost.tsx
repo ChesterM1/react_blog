@@ -2,7 +2,7 @@ import styles from './createPost.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../../Button/Button';
 import ImgSkeleton from './ImgSkeleton';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import SimpleEditor from '../SimpleEditor/SimpleEditor';
 import { createPostSchemaValidate } from '../../../utils/validateSchema/validateSchema';
 import { YupErrorsResolve } from '../../../utils/validateSchema/type';
@@ -10,6 +10,7 @@ import ValidateErrorMessage from '../../auth/ValidateErrorMessage/ValidateErrorM
 import scrollTo from '../../../utils/scrollTo';
 import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
 import { PropsInterface } from './types';
+import { useAppSelector } from '../../../redux/store';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) => {
@@ -20,6 +21,8 @@ const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) =
         name: '',
         error: '',
     });
+    const isAuth = useAppSelector((store) => store.auth.isAuth);
+
     const fileImgRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
     const tagsRef = useRef<HTMLInputElement>(null);
@@ -108,7 +111,9 @@ const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) =
     useEffect(() => {
         window.scroll(0, 0);
     }, []);
-
+    if (!isAuth) {
+        return <Navigate to={'/login'} />;
+    }
     return (
         <section className={styles.create}>
             <form onSubmit={submit}>

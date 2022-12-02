@@ -3,15 +3,17 @@ import Commentaries from '../Commentaries/Commentaries';
 import MiniPosts from '../Post/MiniPosts/MiniPosts';
 import TagsBar from '../TagsBar/TagsBar';
 import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
+import MiniPostSkeleton from '../Post/MiniPosts/miniPostSkeleton';
 
 const RightInfoBar: React.FC = () => {
     const { data: posts, isLoading } = useGetPostsQuery({
         limit: 3,
         popular: 1,
     });
-    if (isLoading) {
-        return <h1>LOADING...</h1>;
-    }
+
+    const miniPostRender = isLoading
+        ? [...new Array(3)].map((_, id) => <MiniPostSkeleton key={id} />)
+        : posts?.data.map((post) => <MiniPosts posts={post} key={post._id} />);
 
     return (
         <aside className={styles.bar}>
@@ -19,9 +21,7 @@ const RightInfoBar: React.FC = () => {
 
             <div className={styles.mini__posts}>
                 <h3>Popular posts</h3>
-                {posts?.data.map((post) => (
-                    <MiniPosts posts={post} key={post._id} />
-                ))}
+                {miniPostRender}
             </div>
             <div className={styles.comment__bar}>
                 <h3>Last comments</h3>
