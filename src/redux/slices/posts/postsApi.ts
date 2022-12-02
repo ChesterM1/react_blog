@@ -7,6 +7,8 @@ import {
     Post,
     EditPostPayload,
     GetAllPostResponse,
+    getAllPostParams,
+    TagsResponse,
 } from './postTypes';
 
 export const postsApi = createApi({
@@ -14,11 +16,11 @@ export const postsApi = createApi({
     baseQuery: axiosBaseQuery(),
     tagTypes: ['Posts'],
     endpoints: (builder) => ({
-        getPosts: builder.query<GetAllPostResponse, number | void>({
-            query: (limit) => ({
+        getPosts: builder.query<GetAllPostResponse, getAllPostParams>({
+            query: (queryParams) => ({
                 url: `posts`,
                 params: {
-                    limit,
+                    ...queryParams,
                 },
             }),
             providesTags: (result) =>
@@ -28,26 +30,23 @@ export const postsApi = createApi({
         }),
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
-                url: `posts/like/${postId}`,
+                url: `posts/like`, ///${postId}
                 method: 'POST',
                 data: { userId, postId },
             }),
-            async onQueryStarted({ postId, userId }, { queryFulfilled, dispatch }) {
-                const postLimit = store.getState().pagination.getPostCount;
-                const test = store.getState();
-                console.log(test);
-
+            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
+                const { getPostCount, popularPost, activeTags } = store.getState().getPostQuery;
                 const patchResult = dispatch(
                     postsApi.util.updateQueryData(
                         'getPosts',
-                        postLimit,
+                        { limit: getPostCount, popular: popularPost, activeTags },
                         (draft: GetAllPostResponse) => {
                             const mutationPost = draft?.data.find((post) => post._id === postId);
-                            const likeInPost = mutationPost?.like.find((id) => id === userId);
-                            if (mutationPost && likeInPost) {
-                                mutationPost.like = mutationPost.like.filter((id) => id !== userId);
-                            } else {
-                                mutationPost?.like.push(userId);
+                            if (mutationPost) {
+                                mutationPost.like = {
+                                    isLiked: true,
+                                    likeCount: mutationPost?.like.likeCount + 1,
+                                };
                             }
                         }
                     )
@@ -55,15 +54,49 @@ export const postsApi = createApi({
 
                 const patchResultOne = dispatch(
                     postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
-                        const likeInPost = draft.like?.find((id) => id === userId);
-                        if (likeInPost) {
-                            draft.like = draft.like.filter((id) => id !== userId);
-                        } else {
-                            draft.like.push(userId);
+                        if (!draft.like.isLiked) {
+                            draft.like = { isLiked: true, likeCount: draft.like.likeCount + 1 };
                         }
                     })
                 );
+                const response = await queryFulfilled;
+                if (response.meta) {
+                    patchResult.undo();
+                    patchResultOne.undo();
+                }
+            },
+        }),
+        unLikePost: builder.mutation<Post, LikePostAction>({
+            query: ({ postId, userId }) => ({
+                url: `posts/unLike`,
+                method: 'POST',
+                data: { userId, postId },
+            }),
+            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
+                const { getPostCount, popularPost, activeTags } = store.getState().getPostQuery;
+                const patchResult = dispatch(
+                    postsApi.util.updateQueryData(
+                        'getPosts',
+                        { limit: getPostCount, popular: popularPost, activeTags },
+                        (draft: GetAllPostResponse) => {
+                            const mutationPost = draft?.data.find((post) => post._id === postId);
+                            if (mutationPost) {
+                                mutationPost.like = {
+                                    isLiked: false,
+                                    likeCount: mutationPost?.like.likeCount - 1,
+                                };
+                            }
+                        }
+                    )
+                );
 
+                const patchResultOne = dispatch(
+                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                        if (draft.like.isLiked) {
+                            draft.like = { isLiked: false, likeCount: draft.like.likeCount - 1 };
+                        }
+                    })
+                );
                 const response = await queryFulfilled;
                 if (response.meta) {
                     patchResult.undo();
@@ -100,14 +133,24 @@ export const postsApi = createApi({
             }),
             invalidatesTags: ['Posts'],
         }),
+        getTags: builder.query<TagsResponse[], number>({
+            query: (limit) => ({
+                url: 'tags',
+                params: {
+                    limit,
+                },
+            }),
+        }),
     }),
 });
 
 export const {
     useGetPostsQuery,
     useLikePostMutation,
+    useUnLikePostMutation,
     useCreatePostMutation,
     useDeletePostMutation,
     useGetOnePostQuery,
     useEditPostMutation,
+    useGetTagsQuery,
 } = postsApi;

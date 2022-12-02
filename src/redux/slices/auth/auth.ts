@@ -9,7 +9,6 @@ import { User } from './authTypes';
 export const userAuthFetch = createAsyncThunk(
     'user/fetching',
     async (payload: LoginFetch | RegisterFetch, { rejectWithValue }) => {
-        console.log(payload);
         if ('fullName' in payload) {
             const { email, password, fullName } = payload;
 

@@ -4,9 +4,9 @@ import likeOut from '../../img/like-outline.png';
 import likeFill from '../../img/like-fill.png';
 import disLikeOut from '../../img/dislike-outline.png';
 import disLikeFill from '../../img/dislike-fill.png';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
-const Commentaries = () => {
+const Commentaries = memo(() => {
     const [like, setLike] = useState<boolean>(false);
     const [dislike, setDislike] = useState<boolean>(false);
     const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -52,5 +52,5 @@ const Commentaries = () => {
             </div>
         </div>
     );
-};
+});
 export default Commentaries;

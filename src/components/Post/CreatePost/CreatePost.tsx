@@ -10,7 +10,6 @@ import ValidateErrorMessage from '../../auth/ValidateErrorMessage/ValidateErrorM
 import scrollTo from '../../../utils/scrollTo';
 import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
 import { PropsInterface } from './types';
-import { log } from 'console';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) => {
@@ -71,7 +70,6 @@ const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) =
     };
 
     const submit = (e: React.SyntheticEvent) => {
-        console.log(e);
         e.preventDefault();
         const target = e.target as (typeof e.target & HTMLFormElement) & HTMLFormElement[];
         const formData = new FormData(target);

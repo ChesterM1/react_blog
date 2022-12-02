@@ -1,18 +1,11 @@
-import {
-    BaseQueryFn,
-    FetchArgs,
-    FetchBaseQueryError,
-    FetchBaseQueryMeta,
-    MutationDefinition,
-} from '@reduxjs/toolkit/dist/query';
-import { MutationActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
-import { LikePostAction, Post } from '../../../redux/slices/posts/postTypes';
+import { Like } from '../../../redux/slices/posts/postTypes';
 
 interface FetchProps {
     viewCount: number;
     createdAt: string;
     addLike?: () => void;
-    handleLIKE?: string[];
+    unLike?: () => void;
+    handleLIKE?: Like;
 }
 export interface BottomBarPropsInterface {
     comment?: boolean;

@@ -21,9 +21,18 @@
             font-weight: 900;
             font-size: 18px;
             margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        li.active {
+            cursor: pointer;
 
             &:hover {
                 color: rgba(0, 0, 0, 0.534);
+            }
+
+            &:active {
+                transform: scale(0.95);
             }
         }
     }

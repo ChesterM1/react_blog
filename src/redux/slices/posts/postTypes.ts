@@ -7,6 +7,10 @@ interface User {
     avatar?: string;
 }
 
+export interface Like {
+    isLiked: boolean;
+    likeCount: number;
+}
 export interface Post {
     _id: string;
     title: string;
@@ -16,14 +20,20 @@ export interface Post {
     viewCount: number;
     createdAt: string;
     updatedAt: string;
-    like: string[];
+    like: Like;
     user: User;
 }
 
 export interface GetAllPostResponse {
     data: Post[];
-    sendPost: 4;
-    totalPost: 6;
+    sendPost: number;
+    totalPost: number;
+}
+
+export interface getAllPostParams {
+    limit: number;
+    popular: number;
+    activeTags?: string;
 }
 export interface CreatePostArg {
     image: File;
@@ -44,4 +54,9 @@ export interface CreatePostDataResponse {
 export interface EditPostPayload {
     formData: FormData;
     postId: string;
+}
+
+export interface TagsResponse {
+    name: string;
+    _id: string;
 }

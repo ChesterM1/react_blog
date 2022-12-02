@@ -1,4 +1,5 @@
 import styles from './fullPost.module.scss';
+import defaultImg from '../../../img/default-image.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
@@ -8,8 +9,8 @@ import PostTagsBlock from '../PostTagsBlock/PostTagsBlock';
 import EditPost from '../EditPost/EditPost';
 import {
     useDeletePostMutation,
-    useGetOnePostQuery,
     useLikePostMutation,
+    useUnLikePostMutation,
 } from '../../../redux/slices/posts/postsApi';
 import { PropsInterface } from './types';
 import moment from 'moment';
@@ -22,8 +23,8 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
     const [edit, setEdit] = useState<boolean>(false);
     const [deletePost] = useDeletePostMutation();
     const [likePost] = useLikePostMutation();
+    const [unLikePost] = useUnLikePostMutation();
     const navigate = useNavigate();
-    useGetOnePostQuery(_id);
 
     const bottomBarProps = {
         createdAt: moment(createdAt).fromNow(),
@@ -32,6 +33,11 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
         handleLIKE: like,
         addLike: () =>
             likePost({
+                postId: _id,
+                userId: userId ?? '',
+            }),
+        unLike: () =>
+            unLikePost({
                 postId: _id,
                 userId: userId ?? '',
             }),
@@ -55,13 +61,13 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
                 <div className={styles.head}>
                     <h1>{title}</h1>
                     <div className={styles.imgBlock}>
-                        {imageUrl && (
-                            <img
-                                className={styles.img}
-                                src={`${IMG_URL}${imageUrl}`}
-                                alt='post img'
-                            />
-                        )}
+                        <img
+                            className={styles.img}
+                            src={imageUrl ? IMG_URL + imageUrl : defaultImg}
+                            alt='post img'
+                            loading='lazy'
+                        />
+
                         <User fullName={user.fullName} />
                     </div>
                 </div>
