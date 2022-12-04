@@ -16,7 +16,6 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
     const { isAuth } = useAppSelector((state) => state.auth);
     const { createdAt, viewCount, addLike, unLike, handleLIKE } = props;
     const activeLike = handleLIKE?.isLiked;
-
     const clickLike = () => {
         if (!isAuth) {
             return;
@@ -27,6 +26,7 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
         }
         addLike?.();
     };
+
     return (
         <div className={styles.bottom}>
             <div className={styles.right}>
@@ -45,7 +45,7 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
                 {like && (
                     <div onClick={clickLike} className={isAuth ? styles.active : ''}>
                         <img
-                            src={activeLike ? heartRed : heart}
+                            src={activeLike && isAuth ? heartRed : heart}
                             className={styles.heart}
                             alt='like'
                         />

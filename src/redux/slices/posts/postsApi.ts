@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from '../../../utils/axios/axiosBaseQuery';
 import store from '../../store';
+import { AddCommentInterface, CommentInterface } from './commentTypes';
 import {
     CreatePostDataResponse,
     LikePostAction,
@@ -14,7 +15,7 @@ import {
 export const postsApi = createApi({
     reducerPath: 'postsApi',
     baseQuery: axiosBaseQuery(),
-    tagTypes: ['Posts'],
+    tagTypes: ['Posts', 'Comment'],
     endpoints: (builder) => ({
         getPosts: builder.query<GetAllPostResponse, getAllPostParams>({
             query: (queryParams) => ({
@@ -141,6 +142,23 @@ export const postsApi = createApi({
                 },
             }),
         }),
+        getComment: builder.query<CommentInterface[], string>({
+            query: (postId) => ({
+                url: `comment/${postId}`,
+            }),
+            providesTags: (result) =>
+                result
+                    ? result?.map((item: CommentInterface) => ({ type: 'Comment', id: item._id }))
+                    : ['Comment'],
+        }),
+        addComment: builder.mutation<CommentInterface, AddCommentInterface>({
+            query: (params) => ({
+                url: 'comment',
+                method: 'POST',
+                data: { ...params },
+            }),
+            invalidatesTags: ['Comment'],
+        }),
     }),
 });
 
@@ -153,4 +171,6 @@ export const {
     useGetOnePostQuery,
     useEditPostMutation,
     useGetTagsQuery,
+    useGetCommentQuery,
+    useAddCommentMutation,
 } = postsApi;

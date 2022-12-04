@@ -39,7 +39,7 @@ export const registerSchemaValidate = yup.object().shape({
 });
 
 export const commentSchemaValidate = yup.object().shape({
-    comment: yup.string().required().matches(/\S/),
+    comment: yup.string().required().matches(/\S/).min(3),
 });
 
 export const createPostSchemaValidate = yup.object().shape({

@@ -6,7 +6,7 @@ const CreatePostButton = () => {
     return (
         <Link to='/posts/create'>
             <div className={styles.button}>
-                <img src={icon} alt='post icon' />
+                <img src={icon} alt='create post icon' />
                 <span>New post</span>
             </div>
         </Link>

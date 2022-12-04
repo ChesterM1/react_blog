@@ -72,7 +72,7 @@ const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) =
         editPost({ formData, postId: id });
     };
 
-    const submit = (e: React.SyntheticEvent) => {
+    const submit = (e: React.SyntheticEvent<EventTarget>) => {
         e.preventDefault();
         const target = e.target as (typeof e.target & HTMLFormElement) & HTMLFormElement[];
         const formData = new FormData(target);

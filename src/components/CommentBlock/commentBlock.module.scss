@@ -62,7 +62,21 @@
                 border: 2px solid rgb(39, 113, 250, .75);
             }
 
+            &:disabled {
+                background-color: rgb(231, 231, 231);
+                cursor: not-allowed;
+            }
         }
+
+        .disabled {
+            background-color: rgb(231, 231, 231);
+
+            p {
+
+                cursor: not-allowed;
+            }
+        }
+
 
         div {
             width: 150px;

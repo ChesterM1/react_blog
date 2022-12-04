@@ -31,7 +31,6 @@ function App() {
                 <Route path='/posts/:id' element={<FullPostPage />} />
                 <Route path='/' element={<PostsPage />} />
             </Route>
-            {/* <Route path='/' element={<Home />} /> */}
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/posts/create' element={<CreatePostPage />} />

@@ -24,9 +24,13 @@ const DropDown = () => {
                 <li>My Comments</li>
             </Link>
 
-            <Link to='' onClick={SignOut}>
-                <li>Sign Out</li>
-            </Link>
+            {/* <Link to='' onClick={SignOut}> */}
+
+            <li className={styles.out} onClick={SignOut}>
+                Sign Out
+            </li>
+
+            {/* </Link> */}
         </ul>
     );
 };

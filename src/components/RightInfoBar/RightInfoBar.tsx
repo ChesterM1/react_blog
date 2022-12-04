@@ -25,8 +25,8 @@ const RightInfoBar: React.FC = () => {
             </div>
             <div className={styles.comment__bar}>
                 <h3>Last comments</h3>
-                <Commentaries />
-                <Commentaries />
+                {/* <Commentaries />
+                <Commentaries /> */}
             </div>
         </aside>
     );

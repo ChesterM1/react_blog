@@ -4,11 +4,19 @@ import likeOut from '../../img/like-outline.png';
 import likeFill from '../../img/like-fill.png';
 import disLikeOut from '../../img/dislike-outline.png';
 import disLikeFill from '../../img/dislike-fill.png';
-import { useState, memo } from 'react';
+import { useState } from 'react';
+import { CommentariesProps } from './types';
+import moment from 'moment';
+import EditPost from '../Post/EditPost/EditPost';
+import { useAppSelector } from '../../redux/store';
 
-const Commentaries = memo(() => {
+const Commentaries: React.FC<CommentariesProps> = ({ props }) => {
     const [like, setLike] = useState<boolean>(false);
     const [dislike, setDislike] = useState<boolean>(false);
+    const [viewEditBorder, setViewEditBorder] = useState<boolean>(false);
+    const { user, text, createdAt } = props;
+    const userId = useAppSelector((store) => store.auth.user?._id);
+
     const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         const target = e.target as HTMLImageElement;
         if (target.alt === 'like') {
@@ -21,13 +29,13 @@ const Commentaries = memo(() => {
     };
 
     return (
-        <div className={styles.comment}>
-            <User fullName={'JOE JORDIOS'} />
+        <div
+            className={styles.comment}
+            onMouseEnter={() => setViewEditBorder(true)}
+            onMouseLeave={() => setViewEditBorder(false)}>
+            <User fullName={user.fullName} />
             <div className={styles.text}>
-                <span>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae numquam
-                    rerum nobis sunt animi debitis voluptatibus dicta iusto quisquam pariatur.
-                </span>
+                <span>{text}</span>
             </div>
             <div className={styles.bottom}>
                 <div className={styles.likeBlock}>
@@ -48,9 +56,17 @@ const Commentaries = memo(() => {
                         <span>11</span>
                     </div>
                 </div>
-                <div className={styles.date}>6 hour ago</div>
+                <div className={styles.date}>{moment(createdAt).fromNow()}</div>
             </div>
+            {viewEditBorder && userId === user._id && (
+                <EditPost
+                    deletePost={function (): void {
+                        throw new Error('Function not implemented.');
+                    }}
+                    id={''}
+                />
+            )}
         </div>
     );
-});
+};
 export default Commentaries;
