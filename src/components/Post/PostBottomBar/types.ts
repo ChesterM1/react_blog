@@ -6,6 +6,7 @@ interface FetchProps {
     addLike?: () => void;
     unLike?: () => void;
     handleLIKE?: Like;
+    commentCount: number;
 }
 export interface BottomBarPropsInterface {
     comment?: boolean;

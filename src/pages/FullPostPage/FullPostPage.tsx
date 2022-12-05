@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useEffect, useRef } from 'react';
 import scrollTo from '../../utils/scrollTo';
 import { cancelToComment } from '../../redux/slices/scrollToComment/scrollToComment';
+import CommentariesSkeleton from '../../components/Commentaries/CommentariesSkeleton';
 
 const FullPostPage = () => {
     const { id } = useParams();
@@ -35,14 +36,11 @@ const FullPostPage = () => {
 
     const fullPost = isLoading ? <SkeletonFullPost /> : <FullPost post={onePost as Post} />;
 
-    if (!onePost) {
-        return <div>Error</div>;
-    }
     return (
         <>
             {fullPost}
             <div className={styles.commentBlock} ref={commentBlock}>
-                <CommentBlock postId={onePost._id} />
+                <CommentBlock postId={id as string} />
             </div>
         </>
     );

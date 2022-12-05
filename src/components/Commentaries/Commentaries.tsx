@@ -8,15 +8,16 @@ import { useState } from 'react';
 import { CommentariesProps } from './types';
 import moment from 'moment';
 import EditPost from '../Post/EditPost/EditPost';
-import { useAppSelector } from '../../redux/store';
+import { useRemoveCommentMutation } from '../../redux/slices/posts/postsApi';
+import { useParams } from 'react-router-dom';
 
-const Commentaries: React.FC<CommentariesProps> = ({ props }) => {
+const Commentaries: React.FC<CommentariesProps> = ({ props, edit }) => {
     const [like, setLike] = useState<boolean>(false);
     const [dislike, setDislike] = useState<boolean>(false);
     const [viewEditBorder, setViewEditBorder] = useState<boolean>(false);
     const { user, text, createdAt } = props;
-    const userId = useAppSelector((store) => store.auth.user?._id);
-
+    const { id } = useParams();
+    const [removeComment] = useRemoveCommentMutation();
     const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         const target = e.target as HTMLImageElement;
         if (target.alt === 'like') {
@@ -25,6 +26,12 @@ const Commentaries: React.FC<CommentariesProps> = ({ props }) => {
         } else if (target.alt === 'dislike') {
             setLike(false);
             setDislike((dislike) => !dislike);
+        }
+    };
+
+    const deleteComment = () => {
+        if (window.confirm('Confirm comment deletion?')) {
+            removeComment({ id: props._id, postId: id as string });
         }
     };
 
@@ -58,14 +65,7 @@ const Commentaries: React.FC<CommentariesProps> = ({ props }) => {
                 </div>
                 <div className={styles.date}>{moment(createdAt).fromNow()}</div>
             </div>
-            {viewEditBorder && userId === user._id && (
-                <EditPost
-                    deletePost={function (): void {
-                        throw new Error('Function not implemented.');
-                    }}
-                    id={''}
-                />
-            )}
+            {viewEditBorder && edit && <EditPost deletePost={deleteComment} id={''} />}
         </div>
     );
 };

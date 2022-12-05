@@ -7,15 +7,15 @@ import { useAppSelector } from '../../redux/store';
 import { CommentBlockProp } from './types';
 import { useAddCommentMutation, useGetCommentQuery } from '../../redux/slices/posts/postsApi';
 import CommentariesSkeleton from '../Commentaries/CommentariesSkeleton';
+import EmptyCommentaries from '../Commentaries/EmptyCommentaries/EmptyCommentaries';
 
 const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
     const [areaValue, setAreaValue] = useState('');
     const [validComment, setValidMessage] = useState<boolean>(true);
     const refArea = useRef<HTMLTextAreaElement>(null);
     const { isAuth, user } = useAppSelector((store) => store.auth);
-
-    const [addComment, { isLoading }] = useAddCommentMutation();
     const { data, isLoading: commentLoading } = useGetCommentQuery(postId);
+    const [addComment, { isLoading }] = useAddCommentMutation();
 
     const validateAndChange = (e: string): void => {
         setAreaValue(e);
@@ -59,9 +59,13 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
     useEffect(() => {
         calcHeightArea();
     }, [areaValue]);
-    const comment = commentLoading
+
+    const commentRender = commentLoading
         ? [...new Array(3)].map((_, i) => <CommentariesSkeleton key={i} />)
-        : data?.map((item) => <Commentaries key={item._id} props={item} />);
+        : data?.map((item) => (
+              <Commentaries key={item._id} props={item} edit={item.user._id === user?._id} />
+          ));
+    const comment = data?.length === 0 ? <EmptyCommentaries /> : commentRender;
     return (
         <section className={styles.comment}>
             <form onSubmit={submit}>
@@ -91,14 +95,7 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
                     </div>
                 </div>
             </form>
-            <div>
-                {/* <Commentaries />
-                <Commentaries />
-                <Commentaries /> */}
-                {/* <CommentariesSkeleton />
-                <Commentaries /> */}
-                {comment}
-            </div>
+            <div>{comment}</div>
         </section>
     );
 };

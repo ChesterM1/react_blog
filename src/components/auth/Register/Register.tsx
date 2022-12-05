@@ -9,7 +9,7 @@ import { registerSchemaValidate } from '../../../utils/validateSchema/validateSc
 import backAfterLogin from '../../../utils/backAfterLogin';
 import ValidateErrorMessage from '../ValidateErrorMessage/ValidateErrorMessage';
 import ServerErrorMessage from '../ServerErrorMessage/ServerErrorMessage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { serverErrorMessageCancel, userAuthFetch } from '../../../redux/slices/auth/auth';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { LoadStatus } from '../../../redux/slices/loadStatusTypes';
@@ -118,6 +118,10 @@ const Register = () => {
         }
         // eslint-disable-next-line
     }, [status]);
+
+    if (!isAuth) {
+        return <Navigate to={'/'} />;
+    }
 
     return (
         <section className={styles.register}>

@@ -31,7 +31,7 @@ export const postsApi = createApi({
         }),
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
-                url: `posts/like`, ///${postId}
+                url: `posts/like`,
                 method: 'POST',
                 data: { userId, postId },
             }),
@@ -146,10 +146,11 @@ export const postsApi = createApi({
             query: (postId) => ({
                 url: `comment/${postId}`,
             }),
-            providesTags: (result) =>
-                result
-                    ? result?.map((item: CommentInterface) => ({ type: 'Comment', id: item._id }))
-                    : ['Comment'],
+            providesTags: ['Comment'],
+            // (result) =>
+            // result
+            //     ? result?.map((item: CommentInterface) => ({ type: 'Comment', id: item._id }))
+            //     : ['Comment'],
         }),
         addComment: builder.mutation<CommentInterface, AddCommentInterface>({
             query: (params) => ({
@@ -157,7 +158,77 @@ export const postsApi = createApi({
                 method: 'POST',
                 data: { ...params },
             }),
+            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
+                const patchResult = dispatch(
+                    postsApi.util.updateQueryData(
+                        'getPosts',
+                        { limit: 3, popular: 1 },
+                        (draft: GetAllPostResponse) => {
+                            const post = draft.data.find((item) => item._id === postId);
+                            if (post) {
+                                post.comment = post.comment + 1;
+                            }
+                        }
+                    )
+                );
+
+                const patchResultOne = dispatch(
+                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                        if (draft) {
+                            draft.comment = draft.comment + 1;
+                        }
+                    })
+                );
+                const response = await queryFulfilled;
+                if (response.meta) {
+                    patchResult.undo();
+                    patchResultOne.undo();
+                }
+            },
             invalidatesTags: ['Comment'],
+        }),
+        removeComment: builder.mutation<void, { id: string; postId: string }>({
+            query: ({ id }) => ({
+                url: `comment/${id}`,
+                method: 'DELETE',
+            }),
+            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
+                const patchResult = dispatch(
+                    postsApi.util.updateQueryData(
+                        'getPosts',
+                        { limit: 3, popular: 1 },
+                        (draft: GetAllPostResponse) => {
+                            const post = draft.data.find((item) => item._id === postId);
+                            if (post) {
+                                post.comment = post.comment - 1;
+                            }
+                        }
+                    )
+                );
+
+                const patchResultOne = dispatch(
+                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                        if (draft) {
+                            draft.comment = draft.comment - 1;
+                        }
+                    })
+                );
+                const response = await queryFulfilled;
+                if (response.meta) {
+                    patchResult.undo();
+                    patchResultOne.undo();
+                }
+            },
+            invalidatesTags: ['Comment'],
+        }),
+        lastComment: builder.query<CommentInterface[], number>({
+            query: (limit) => ({
+                url: `comment`,
+                params: {
+                    limit,
+                },
+            }),
+            providesTags: ['Comment'],
         }),
     }),
 });
@@ -173,4 +244,6 @@ export const {
     useGetTagsQuery,
     useGetCommentQuery,
     useAddCommentMutation,
+    useLastCommentQuery,
+    useRemoveCommentMutation,
 } = postsApi;

@@ -18,7 +18,11 @@ export const getPostQuery = createSlice({
             state.popularPost = payload;
         },
         setActiveTags(state, { payload }: PayloadAction<string>) {
-            state.activeTags = payload;
+            if (state.activeTags === payload) {
+                state.activeTags = '';
+            } else {
+                state.activeTags = payload;
+            }
         },
         resetValue(state) {
             state.activeTags = undefined;

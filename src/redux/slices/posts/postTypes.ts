@@ -20,6 +20,7 @@ export interface Post {
     viewCount: number;
     createdAt: string;
     updatedAt: string;
+    comment: number;
     like: Like;
     user: User;
 }

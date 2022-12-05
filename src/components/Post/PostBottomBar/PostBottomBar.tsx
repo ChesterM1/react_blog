@@ -14,7 +14,7 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
     scrollToComment,
 }) => {
     const { isAuth } = useAppSelector((state) => state.auth);
-    const { createdAt, viewCount, addLike, unLike, handleLIKE } = props;
+    const { createdAt, viewCount, addLike, unLike, handleLIKE, commentCount } = props;
     const activeLike = handleLIKE?.isLiked;
     const clickLike = () => {
         if (!isAuth) {
@@ -39,7 +39,7 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
                 {comment && (
                     <div onClick={() => scrollToComment?.()} className={styles.active}>
                         <img src={commentIcon} alt='comment' />
-                        <span>0</span>
+                        <span>{commentCount}</span>
                     </div>
                 )}
                 {like && (

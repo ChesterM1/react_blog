@@ -21,6 +21,7 @@ const MiniPosts: React.FC<MimiPostProps> = ({ posts }) => {
     const props = {
         createdAt: moment(posts.createdAt).fromNow(),
         viewCount: posts.viewCount,
+        commentCount: posts.comment,
     };
     return (
         <div className={styles.mini__posts}>

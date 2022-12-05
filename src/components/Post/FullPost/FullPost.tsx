@@ -31,6 +31,7 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
         updatedAt: moment(updatedAt).fromNow(),
         viewCount: viewCount,
         handleLIKE: like,
+        commentCount: post.comment,
         addLike: () =>
             likePost({
                 postId: _id,

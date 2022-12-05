@@ -19,7 +19,7 @@ import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const Post: React.FC<PostInterface> = ({ props }) => {
-    const { _id, title, text, tags, viewCount, createdAt, user, like, imageUrl } = props;
+    const { _id, title, text, tags, viewCount, createdAt, user, like, imageUrl, comment } = props;
     const [selectPost, setSelectPost] = useState<boolean>(false);
     const userAuthId = useAppSelector((state) => state.auth.user?._id);
     const dispatch = useAppDispatch();
@@ -37,6 +37,7 @@ const Post: React.FC<PostInterface> = ({ props }) => {
         viewCount,
         handleLIKE: like,
         createdAt: moment(createdAt).fromNow(),
+        commentCount: comment,
         addLike: () =>
             likePost({
                 postId: _id,
