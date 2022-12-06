@@ -12,6 +12,13 @@
         font-size: 15px;
         line-height: 24px;
         z-index: 11;
+
+    }
+
+    .active {
+        span {
+            cursor: pointer;
+        }
     }
 
     .bottom {

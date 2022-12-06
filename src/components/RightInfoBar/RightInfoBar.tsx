@@ -5,6 +5,7 @@ import TagsBar from '../TagsBar/TagsBar';
 import { useGetPostsQuery, useLastCommentQuery } from '../../redux/slices/posts/postsApi';
 import MiniPostSkeleton from '../Post/MiniPosts/miniPostSkeleton';
 import CommentariesSkeleton from '../Commentaries/CommentariesSkeleton';
+import { Link } from 'react-router-dom';
 
 const RightInfoBar: React.FC = () => {
     const { data: posts, isLoading } = useGetPostsQuery({
@@ -16,7 +17,7 @@ const RightInfoBar: React.FC = () => {
 
     const commentRender = commentLoad
         ? [...new Array(2)].map((_, id) => <CommentariesSkeleton key={id} />)
-        : lastComment?.map((item) => <Commentaries props={item} key={item._id} />);
+        : lastComment?.map((item) => <Commentaries props={item} key={item._id} redirect={true} />);
 
     const miniPostRender = isLoading
         ? [...new Array(3)].map((_, id) => <MiniPostSkeleton key={id} />)

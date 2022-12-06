@@ -9,14 +9,18 @@ import { CommentariesProps } from './types';
 import moment from 'moment';
 import EditPost from '../Post/EditPost/EditPost';
 import { useRemoveCommentMutation } from '../../redux/slices/posts/postsApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../redux/store';
+import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 
-const Commentaries: React.FC<CommentariesProps> = ({ props, edit }) => {
+const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) => {
     const [like, setLike] = useState<boolean>(false);
     const [dislike, setDislike] = useState<boolean>(false);
     const [viewEditBorder, setViewEditBorder] = useState<boolean>(false);
-    const { user, text, createdAt } = props;
-    const { id } = useParams();
+    const { user, text, createdAt, postId } = props;
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+
     const [removeComment] = useRemoveCommentMutation();
     const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
         const target = e.target as HTMLImageElement;
@@ -31,8 +35,15 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit }) => {
 
     const deleteComment = () => {
         if (window.confirm('Confirm comment deletion?')) {
-            removeComment({ id: props._id, postId: id as string });
+            removeComment({ id: props._id, postId });
         }
+    };
+    const redirectToPost = () => {
+        if (!redirect) {
+            return;
+        }
+        dispatch(toComment());
+        navigate(`/posts/${postId}`);
     };
 
     return (
@@ -41,7 +52,9 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit }) => {
             onMouseEnter={() => setViewEditBorder(true)}
             onMouseLeave={() => setViewEditBorder(false)}>
             <User fullName={user.fullName} />
-            <div className={styles.text}>
+            <div
+                className={`${styles.text} ${redirect ? styles.active : null}`}
+                onClick={redirectToPost}>
                 <span>{text}</span>
             </div>
             <div className={styles.bottom}>

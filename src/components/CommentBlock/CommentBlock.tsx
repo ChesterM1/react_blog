@@ -66,6 +66,7 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
               <Commentaries key={item._id} props={item} edit={item.user._id === user?._id} />
           ));
     const comment = data?.length === 0 ? <EmptyCommentaries /> : commentRender;
+
     return (
         <section className={styles.comment}>
             <form onSubmit={submit}>
