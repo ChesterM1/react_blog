@@ -6,6 +6,7 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 
 const Layout = () => {
     const isMobile = useIsMobile();
+
     return (
         <>
             <Header />

@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../../utils/axios/axios';
 import { LoadStatus } from '../loadStatusTypes';
 import { InitialState, LoginFetch, RegisterFetch } from './authTypes';
-import { saveLocalStorage } from '../../../utils/serviceLocalStorage';
 import { AxiosError } from 'axios';
 import { User } from './authTypes';
+import { saveLocalStorage } from '../../../utils/serviceLocalStorage';
 
 export const userAuthFetch = createAsyncThunk(
     'user/fetching',
@@ -18,18 +18,21 @@ export const userAuthFetch = createAsyncThunk(
                     password,
                     fullName,
                 })
-                .then((res) => res.data)
+                .then((res) => {
+                    saveLocalStorage(res.data.user);
+                    return res.data;
+                })
                 .catch((err: AxiosError<AxiosError>) =>
                     rejectWithValue(err.response?.data.message)
                 );
         } else {
             const { email, password } = payload;
             return axios
-                .post('auth/login', {
-                    email,
-                    password,
+                .post('auth/login', payload)
+                .then((res) => {
+                    saveLocalStorage(res.data.user);
+                    return res.data;
                 })
-                .then((res) => res.data)
                 .catch((err: AxiosError<AxiosError>) =>
                     rejectWithValue(err.response?.data.message)
                 );
@@ -68,7 +71,6 @@ export const auth = createSlice({
             state.status = LoadStatus.IDLE;
             state.user = action.payload.user;
             state.isAuth = true;
-            saveLocalStorage(action.payload.user);
         });
         builder.addCase(userAuthFetch.rejected, (state, action) => {
             state.status = LoadStatus.ERROR;
