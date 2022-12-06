@@ -16,4 +16,14 @@ export interface CommentInterface {
     updatedAt: string;
     __v: number;
     _id: string;
+    likedCount: number;
+    dislikeCount: number;
+    isLiked: boolean;
+    IsDisliked: boolean;
+}
+
+export interface ReactionCommentPayload {
+    commentId: string;
+    userId: string;
+    postId: string;
 }
