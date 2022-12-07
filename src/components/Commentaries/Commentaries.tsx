@@ -11,7 +11,6 @@ import EditPost from '../Post/EditPost/EditPost';
 import {
     useDislikeCommentMutation,
     useLikeCommentMutation,
-    useRemoveCommentMutation,
     useRemoveDislikeCommentMutation,
     useRemoveLikeCommentMutation,
 } from '../../redux/slices/posts/postsApi';
@@ -20,25 +19,21 @@ import { useAppDispatch } from '../../redux/store';
 import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 
 const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) => {
-    // const [like, setLike] = useState<boolean>(false);
-    // const [dislike, setDislike] = useState<boolean>(false);
     const [viewEditBorder, setViewEditBorder] = useState<boolean>(false);
-    const { user, text, createdAt, postId, likedCount, dislikeCount, isLiked, IsDisliked } = props;
+    const {
+        user,
+        text,
+        createdAt,
+        postId,
+        likedCount,
+        dislikeCount,
+        isLiked,
+        IsDisliked,
+        remove,
+        edit: editComment,
+    } = props;
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-
-    const [removeComment] = useRemoveCommentMutation();
-    // const handleLike = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    //     const target = e.target as HTMLImageElement;
-    //     if (target.alt === 'like') {
-    //         setDislike(false);
-    //         setLike((like) => !like);
-    //         likedComment({ commentId: props._id, userId: props.user._id });
-    //     } else if (target.alt === 'dislike') {
-    //         setLike(false);
-    //         setDislike((dislike) => !dislike);
-    //     }
-    // };
 
     const [likedComment] = useLikeCommentMutation();
     const [removeLikeComment] = useRemoveLikeCommentMutation();
@@ -69,11 +64,6 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
         }
     };
 
-    const deleteComment = () => {
-        if (window.confirm('Confirm comment deletion?')) {
-            removeComment({ id: props._id, postId });
-        }
-    };
     const redirectToPost = () => {
         if (!redirect) {
             return;
@@ -81,7 +71,10 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
         dispatch(toComment());
         navigate(`/posts/${postId}`);
     };
-
+    const dataComment =
+        createdAt === props.updatedAt
+            ? moment(createdAt).fromNow()
+            : `update ${moment(props.updatedAt).fromNow()}`;
     return (
         <div
             className={styles.comment}
@@ -108,9 +101,14 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
                         <span>{dislikeCount}</span>
                     </div>
                 </div>
-                <div className={styles.date}>{moment(createdAt).fromNow()}</div>
+                <div className={styles.date}>{dataComment}</div>
             </div>
-            {viewEditBorder && edit && <EditPost deletePost={deleteComment} id={''} />}
+            {viewEditBorder && edit && (
+                <EditPost
+                    remove={() => remove?.(props._id, postId)}
+                    edit={() => editComment?.(text, props._id)}
+                />
+            )}
         </div>
     );
 };

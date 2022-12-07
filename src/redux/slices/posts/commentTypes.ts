@@ -27,3 +27,8 @@ export interface ReactionCommentPayload {
     userId: string;
     postId: string;
 }
+
+export interface editCommentPayload {
+    id: string;
+    text: string;
+}

@@ -1,17 +1,15 @@
 import styles from './editPost.module.scss';
-import edit from '../../../img/pencil.png';
-import remove from '../../../img/remove.png';
+import editImg from '../../../img/pencil.png';
+import removeImg from '../../../img/remove.png';
 import { PropsInterface } from './types';
-import { Link } from 'react-router-dom';
 
-const EditPost: React.FC<PropsInterface> = ({ deletePost, id }) => {
+const EditPost: React.FC<PropsInterface> = ({ remove, edit }) => {
     return (
         <div className={styles.edit}>
             <div>
-                <Link to={`/posts/${id}/edit`}>
-                    <img src={edit} alt='edit icon' />
-                </Link>
-                <img onClick={deletePost} src={remove} alt='remove icon' />
+                <img onClick={edit} src={editImg} alt='edit icon' />
+
+                <img onClick={remove} src={removeImg} alt='remove icon' />
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
 export interface PropsInterface {
-    deletePost: () => void;
-    id: string;
+    remove: () => void;
+    edit: () => void;
 }

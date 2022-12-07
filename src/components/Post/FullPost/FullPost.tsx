@@ -53,6 +53,10 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
         }
     };
 
+    const handleEdit = () => {
+        navigate(`/posts/${_id}/edit`);
+    };
+
     return (
         <section
             className={styles.post}
@@ -80,7 +84,7 @@ const FullPost: React.FC<PropsInterface> = ({ post }) => {
                     <PostTagsBlock tags={tags} />
                     <PostBottomBar comment={true} like={true} view={true} props={bottomBarProps} />
                 </div>
-                {edit && editPost && <EditPost deletePost={handleDeletePost} id={_id} />}
+                {edit && editPost && <EditPost remove={handleDeletePost} edit={handleEdit} />}
             </main>
         </section>
     );

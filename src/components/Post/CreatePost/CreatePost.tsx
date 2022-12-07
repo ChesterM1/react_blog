@@ -11,6 +11,7 @@ import scrollTo from '../../../utils/scrollTo';
 import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
 import { PropsInterface } from './types';
 import { useAppSelector } from '../../../redux/store';
+import backAfterLogin from '../../../utils/backAfterLogin';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) => {
@@ -198,9 +199,10 @@ const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) =
                         type={'submit'}
                         loading={isLoading || editIsLoading ? true : false}
                     />
-                    <Link to={'/'} className={styles.cancel}>
+
+                    <div className={styles.cancel} onClick={() => backAfterLogin(navigate)}>
                         <span>Cancel</span>
-                    </Link>
+                    </div>
                 </div>
             </form>
             {fieldError.error && (

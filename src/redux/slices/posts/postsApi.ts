@@ -1,7 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from '../../../utils/axios/axiosBaseQuery';
 import store from '../../store';
-import { AddCommentInterface, CommentInterface, ReactionCommentPayload } from './commentTypes';
+import {
+    AddCommentInterface,
+    CommentInterface,
+    editCommentPayload,
+    ReactionCommentPayload,
+} from './commentTypes';
 import {
     CreatePostDataResponse,
     LikePostAction,
@@ -158,33 +163,7 @@ export const postsApi = createApi({
                 method: 'POST',
                 data: { ...params },
             }),
-            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getPosts',
-                        { limit: 3, popular: 1 },
-                        (draft: GetAllPostResponse) => {
-                            const post = draft.data.find((item) => item._id === postId);
-                            if (post) {
-                                post.comment = post.comment + 1;
-                            }
-                        }
-                    )
-                );
 
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
-                        if (draft) {
-                            draft.comment = draft.comment + 1;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
             invalidatesTags: ['Comment'],
         }),
         removeComment: builder.mutation<void, { id: string; postId: string }>({
@@ -192,33 +171,7 @@ export const postsApi = createApi({
                 url: `comment/${id}`,
                 method: 'DELETE',
             }),
-            async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getPosts',
-                        { limit: 3, popular: 1 },
-                        (draft: GetAllPostResponse) => {
-                            const post = draft.data.find((item) => item._id === postId);
-                            if (post) {
-                                post.comment = post.comment - 1;
-                            }
-                        }
-                    )
-                );
 
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
-                        if (draft) {
-                            draft.comment = draft.comment - 1;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
             invalidatesTags: ['Comment'],
         }),
         lastComment: builder.query<CommentInterface[], number>({
@@ -396,6 +349,14 @@ export const postsApi = createApi({
                 }
             },
         }),
+        editComment: builder.mutation<CommentInterface, editCommentPayload>({
+            query: (data) => ({
+                url: `comment`,
+                method: 'PATCH',
+                data,
+            }),
+            invalidatesTags: ['Comment'],
+        }),
     }),
 });
 
@@ -416,4 +377,5 @@ export const {
     useRemoveLikeCommentMutation,
     useDislikeCommentMutation,
     useRemoveDislikeCommentMutation,
+    useEditCommentMutation,
 } = postsApi;

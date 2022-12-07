@@ -33,6 +33,10 @@ const Post: React.FC<PostInterface> = ({ props }) => {
             deletePost(_id);
         }
     };
+
+    const editPost = () => {
+        navigate(`/posts/${_id}/edit`);
+    };
     const bottomBarProps = {
         viewCount,
         handleLIKE: like,
@@ -99,7 +103,7 @@ const Post: React.FC<PostInterface> = ({ props }) => {
             </div>
 
             {user._id === userAuthId && selectPost && (
-                <EditPost deletePost={handleDeletePost} id={_id} />
+                <EditPost remove={handleDeletePost} edit={editPost} />
             )}
         </section>
     );
