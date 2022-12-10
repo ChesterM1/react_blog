@@ -119,7 +119,7 @@ const Register = () => {
         // eslint-disable-next-line
     }, [status]);
 
-    if (!isAuth) {
+    if (isAuth) {
         return <Navigate to={'/'} />;
     }
 

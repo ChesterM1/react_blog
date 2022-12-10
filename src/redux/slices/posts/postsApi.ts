@@ -125,7 +125,7 @@ export const postsApi = createApi({
                 url: `posts/${postId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Posts'],
+            invalidatesTags: ['Posts', 'Comment'],
         }),
         getOnePost: builder.query<Post, string>({
             query: (postId) => ({
@@ -154,10 +154,6 @@ export const postsApi = createApi({
                 url: `comment/${postId}`,
             }),
             providesTags: ['Comment'],
-            // (result) =>
-            // result
-            //     ? result?.map((item: CommentInterface) => ({ type: 'Comment', id: item._id }))
-            //     : ['Comment'],
         }),
         addComment: builder.mutation<CommentInterface, AddCommentInterface>({
             query: (params) => ({
