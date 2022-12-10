@@ -87,6 +87,13 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
         calcHeightArea();
     }, [areaValue]);
 
+    const addCommentDisabled = () => {
+        if (!isAuth || isError) {
+            return true;
+        }
+        return false;
+    };
+
     const commentRender = commentLoading
         ? [...new Array(3)].map((_, i) => <CommentariesSkeleton key={i} />)
         : data?.map((item) => (
@@ -108,10 +115,10 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
             <form onSubmit={submit}>
                 <h3>Commentaries</h3>
                 <div
-                    className={`${styles.areaWrapper} ${!isAuth && styles.disabled}`}
+                    className={`${styles.areaWrapper} ${addCommentDisabled() && styles.disabled}`}
                     onClick={areaFocus}>
                     <textarea
-                        disabled={!isAuth}
+                        disabled={addCommentDisabled()}
                         ref={refArea}
                         rows={1}
                         name='comment'

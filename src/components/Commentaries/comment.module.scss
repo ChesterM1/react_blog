@@ -42,10 +42,13 @@
             }
         }
 
+        .likeActive {
+            cursor: pointer;
+        }
+
         img {
             height: 15px;
             object-fit: cover;
-            cursor: pointer;
             align-self: flex-end;
         }
 

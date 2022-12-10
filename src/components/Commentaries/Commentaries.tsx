@@ -15,7 +15,7 @@ import {
     useRemoveLikeCommentMutation,
 } from '../../redux/slices/posts/postsApi';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 
 const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) => {
@@ -32,6 +32,7 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
         remove,
         edit: editComment,
     } = props;
+    const isAuth = useAppSelector((state) => state.auth.isAuth);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -41,8 +42,15 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
     const [removeDislikeComment] = useRemoveDislikeCommentMutation();
 
     const like = () => {
+        if (!isAuth) {
+            return;
+        }
         if (!props.isLiked) {
-            likedComment({ commentId: props._id, userId: props.user._id, postId: props.postId });
+            likedComment({
+                commentId: props._id,
+                userId: props.user._id,
+                postId: props.postId,
+            });
         } else if (props.isLiked) {
             removeLikeComment({
                 commentId: props._id,
@@ -53,6 +61,9 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
     };
 
     const dislike = () => {
+        if (!isAuth) {
+            return;
+        }
         if (!props.IsDisliked) {
             dislikeComment({ commentId: props._id, userId: props.user._id, postId: props.postId });
         } else if (props.IsDisliked) {
@@ -89,14 +100,20 @@ const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) =>
             <div className={styles.bottom}>
                 <div className={styles.likeBlock}>
                     <div>
-                        <img src={isLiked ? likeFill : likeOut} alt='like' onClick={like} />
+                        <img
+                            src={isLiked && isAuth ? likeFill : likeOut}
+                            alt='like'
+                            onClick={like}
+                            className={isAuth ? styles.likeActive : null}
+                        />
                         <span>{likedCount}</span>
                     </div>
                     <div>
                         <img
-                            src={IsDisliked ? disLikeOut : disLikeFill}
+                            src={IsDisliked && isAuth ? disLikeOut : disLikeFill}
                             alt='dislike'
                             onClick={dislike}
+                            className={isAuth ? styles.likeActive : null}
                         />
                         <span>{dislikeCount}</span>
                     </div>

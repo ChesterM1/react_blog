@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import Layout from './components/Layout/Layout';
 import PostsPage from './pages/PostsPage/PostsPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import NotFound from './components/Error/NotFound/NotFound';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ function App() {
                 <Route path='/register' element={<Register />} />
                 <Route path='/posts/create' element={<CreatePostPage />} />
                 <Route path='/posts/:id/edit' element={<EditPostPage />} />
+                <Route path='*' element={<NotFound />} />
             </Routes>
         </ErrorBoundary>
     );
