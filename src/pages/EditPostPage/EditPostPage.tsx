@@ -6,7 +6,7 @@ import { useGetOnePostQuery } from '../../redux/slices/posts/postsApi';
 
 const EditPostPage = () => {
     const { id } = useParams();
-    const { data: posts, isLoading, isError } = useGetOnePostQuery(id as string);
+    const { data: posts, isLoading } = useGetOnePostQuery(id as string);
 
     return (
         <div>

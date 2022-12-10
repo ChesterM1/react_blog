@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export const useIsMobile = (breakpoint = 720): boolean => {
-    const checkForDevice = () => window.innerWidth < breakpoint;
+    const checkForDevice = useCallback(() => window.innerWidth < breakpoint, []);
 
     const [isMobile, setIsMobile] = useState(checkForDevice());
 
@@ -25,7 +25,7 @@ export const useIsMobile = (breakpoint = 720): boolean => {
                 window.removeEventListener('reload', handlePageResized);
             }
         };
-    }, []);
+    }, [checkForDevice]);
 
     return isMobile;
 };

@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from './components/auth/Login/Login';
-import Home from './pages/PostsPage/PostsPage';
 import Register from './components/auth/Register/Register';
 import FullPostPage from './pages/FullPostPage/FullPostPage';
 import CreatePostPage from './pages/CreatePostPage/CreatePostPage';

@@ -2,7 +2,7 @@ import styles from './createPost.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../../Button/Button';
 import ImgSkeleton from './ImgSkeleton';
-import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import SimpleEditor from '../SimpleEditor/SimpleEditor';
 import { createPostSchemaValidate } from '../../../utils/validateSchema/validateSchema';
 import { YupErrorsResolve } from '../../../utils/validateSchema/type';

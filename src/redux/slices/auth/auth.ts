@@ -26,7 +26,6 @@ export const userAuthFetch = createAsyncThunk(
                     rejectWithValue(err.response?.data.message)
                 );
         } else {
-            const { email, password } = payload;
             return axios
                 .post('auth/login', payload)
                 .then((res) => {
