@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { setPostCount } from '../../redux/slices/getPostQuery/getPostQuerySlice';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import MobileMenu from '../../components/Post/MobileMenu/MobileMenu';
+import Error404 from '../../components/Error/404/Error404';
 
 const Home: React.FC = () => {
     const { getPostCount, popularPost, activeTags } = useAppSelector((store) => store.getPostQuery);
@@ -15,6 +16,7 @@ const Home: React.FC = () => {
         data: posts,
         isLoading,
         isFetching,
+        isError,
         refetch,
     } = useGetPostsQuery({
         limit: getPostCount,
@@ -53,6 +55,9 @@ const Home: React.FC = () => {
         return () => document.removeEventListener('scroll', scrollHandler);
         // eslint-disable-next-line
     }, [isFetching]);
+    if (isError) {
+        return <Error404 />;
+    }
 
     return (
         <>

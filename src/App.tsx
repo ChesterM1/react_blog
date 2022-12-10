@@ -11,6 +11,7 @@ import { authorization } from './redux/slices/auth/auth';
 import { useEffect } from 'react';
 import Layout from './components/Layout/Layout';
 import PostsPage from './pages/PostsPage/PostsPage';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -26,16 +27,18 @@ function App() {
         isAuthExist();
     }, []);
     return (
-        <Routes>
-            <Route path='/' element={<Layout />}>
-                <Route path='/posts/:id' element={<FullPostPage />} />
-                <Route path='/' element={<PostsPage />} />
-            </Route>
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/posts/create' element={<CreatePostPage />} />
-            <Route path='/posts/:id/edit' element={<EditPostPage />} />
-        </Routes>
+        <ErrorBoundary>
+            <Routes>
+                <Route path='/' element={<Layout />}>
+                    <Route path='/posts/:id' element={<FullPostPage />} />
+                    <Route path='/' element={<PostsPage />} />
+                </Route>
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+                <Route path='/posts/create' element={<CreatePostPage />} />
+                <Route path='/posts/:id/edit' element={<EditPostPage />} />
+            </Routes>
+        </ErrorBoundary>
     );
 }
 

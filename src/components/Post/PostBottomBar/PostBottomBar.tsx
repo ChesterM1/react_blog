@@ -15,7 +15,6 @@ const PostBottomBar: React.FC<BottomBarPropsInterface> = ({
 }) => {
     const isAuth = useAppSelector((state) => state.auth.isAuth);
     const { createdAt, viewCount, addLike, unLike, handleLIKE, commentCount } = props;
-    // const {isLiked} = handleLIKE;
 
     const clickLike = () => {
         if (!isAuth) {

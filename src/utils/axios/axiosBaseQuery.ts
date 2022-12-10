@@ -17,10 +17,10 @@ export const axiosBaseQuery =
             return { data: result.data };
         } catch (AxiosError) {
             let err = AxiosError as AxiosError;
-            return {
-                status: err.response?.status,
-                data: err.response?.data || err.message,
-                meta: err.code,
-            };
+            throw new Error(
+                `STATUS: ${err.response?.status}
+            RESPONSE: ${err.response?.data || err.message}
+            ERROR_AT: ${err.code}`
+            );
         }
     };

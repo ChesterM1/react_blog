@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useEffect, useRef } from 'react';
 import scrollTo from '../../utils/scrollTo';
 import { cancelToComment } from '../../redux/slices/scrollToComment/scrollToComment';
-import CommentariesSkeleton from '../../components/Commentaries/CommentariesSkeleton';
+import Error404 from '../../components/Error/404/Error404';
 
 const FullPostPage = () => {
     const { id } = useParams();
@@ -34,11 +34,16 @@ const FullPostPage = () => {
         }
     }, [id, isFetching]);
 
-    const fullPost = isLoading ? <SkeletonFullPost /> : <FullPost post={onePost as Post} />;
-
+    const fullPost = isLoading ? (
+        <SkeletonFullPost />
+    ) : (
+        isSuccess && <FullPost post={onePost as Post} />
+    );
+    const postsFetchError = isError ? <Error404 /> : null;
     return (
         <>
             {fullPost}
+            {postsFetchError}
             <div className={styles.commentBlock} ref={commentBlock}>
                 <CommentBlock postId={id as string} />
             </div>

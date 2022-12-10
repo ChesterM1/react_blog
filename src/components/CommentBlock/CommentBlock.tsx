@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button';
 import Commentaries from '../Commentaries/Commentaries';
 import styles from './commentBlock.module.scss';
@@ -14,6 +14,7 @@ import {
 import CommentariesSkeleton from '../Commentaries/CommentariesSkeleton';
 import EmptyCommentaries from '../Commentaries/EmptyCommentaries/EmptyCommentaries';
 import scrollTo from '../../utils/scrollTo';
+const ErrorComment = lazy(() => import('../Error/RightBarError/RightBarError'));
 
 const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
     const [areaValue, setAreaValue] = useState('');
@@ -22,7 +23,7 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
     const refArea = useRef<HTMLTextAreaElement>(null);
     const ref = useRef<HTMLElement>(null);
     const { isAuth, user } = useAppSelector((store) => store.auth);
-    const { data, isLoading: commentLoading } = useGetCommentQuery(postId);
+    const { data, isLoading: commentLoading, isError } = useGetCommentQuery(postId);
     const [addComment, { isLoading }] = useAddCommentMutation();
     const [removeComment] = useRemoveCommentMutation();
     const [getEditComment] = useEditCommentMutation();
@@ -96,6 +97,11 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
               />
           ));
     const comment = data?.length === 0 ? <EmptyCommentaries /> : commentRender;
+    const commentError = isError ? (
+        <Suspense fallback={<CommentariesSkeleton />}>
+            <ErrorComment />
+        </Suspense>
+    ) : null;
 
     return (
         <section className={styles.comment} ref={ref}>
@@ -126,7 +132,10 @@ const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {
                     </div>
                 </div>
             </form>
-            <div>{comment}</div>
+            <div>
+                {comment}
+                {commentError}
+            </div>
         </section>
     );
 };

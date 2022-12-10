@@ -4,6 +4,8 @@ import { setActiveTags } from '../../redux/slices/getPostQuery/getPostQuerySlice
 import { useNavigate } from 'react-router';
 import { useGetTagsQuery } from '../../redux/slices/posts/postsApi';
 import TagsBarSkeleton from './TagsBarSkeleton';
+import { lazy, Suspense } from 'react';
+const TagError = lazy(() => import('../Error/RightBarError/RightBarError'));
 
 const TagsBar = () => {
     const dispatch = useAppDispatch();
@@ -13,7 +15,12 @@ const TagsBar = () => {
         navigate('/');
         dispatch(setActiveTags(tagsName));
     };
-    const { data, isLoading } = useGetTagsQuery(4);
+    const { data, isLoading, isError } = useGetTagsQuery(4);
+    const tagError = isError ? (
+        <Suspense fallback={<TagsBarSkeleton />}>
+            <TagError />
+        </Suspense>
+    ) : null;
 
     if (isLoading) {
         return <TagsBarSkeleton />;
@@ -34,6 +41,7 @@ const TagsBar = () => {
                         </li>
                     );
                 })}
+                {tagError}
             </ul>
         </div>
     );

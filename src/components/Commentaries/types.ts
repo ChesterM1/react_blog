@@ -1,11 +1,11 @@
 import { CommentInterface } from '../../redux/slices/posts/commentTypes';
-interface actionComment {
+export interface ActionComment {
     remove?: (postId: string, commentId: string) => void;
     edit?: (text: string, commentId: string) => void;
 }
 
 export interface CommentariesProps {
-    props: CommentInterface & actionComment;
+    props: CommentInterface & ActionComment;
     edit?: boolean;
     redirect?: boolean;
 }

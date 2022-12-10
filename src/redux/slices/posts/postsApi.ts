@@ -24,7 +24,7 @@ export const postsApi = createApi({
     endpoints: (builder) => ({
         getPosts: builder.query<GetAllPostResponse, getAllPostParams>({
             query: (queryParams) => ({
-                url: `posts`,
+                url: queryParams.popular === 0 ? `posts/last` : 'posts/popular',
                 params: {
                     ...queryParams,
                 },
@@ -34,6 +34,7 @@ export const postsApi = createApi({
                     ? result?.data.map(({ _id }) => ({ type: 'Posts', id: _id }))
                     : ['Posts'],
         }),
+
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
                 url: `posts/like`,
@@ -42,6 +43,7 @@ export const postsApi = createApi({
             }),
             async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
                 const { getPostCount, popularPost, activeTags } = store.getState().getPostQuery;
+
                 const patchResult = dispatch(
                     postsApi.util.updateQueryData(
                         'getPosts',
@@ -174,6 +176,7 @@ export const postsApi = createApi({
 
             invalidatesTags: ['Comment'],
         }),
+
         lastComment: builder.query<CommentInterface[], number>({
             query: (limit) => ({
                 url: `comment`,
