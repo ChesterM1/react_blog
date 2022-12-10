@@ -1,0 +1,63 @@
+.block {
+    min-width: 147px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    button {
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+        transition: all 0.4s;
+        width: 100%;
+        justify-self: center;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    .login {
+        background-color: rgba(255, 255, 255, 0);
+        border: 2px solid rgb(18, 155, 173);
+        color: rgb(18, 155, 173);
+    }
+
+    .register {
+        background-color: rgb(18, 155, 173);
+        color: #fff;
+        border: 1px solid rgb(18, 155, 173);
+    }
+}
+
+@media(max-width: 720px) {
+    .block {
+        display: flex;
+        align-self: center;
+
+        button {
+            font-size: 16px;
+        }
+    }
+}
+
+@media(max-width: 500px) {
+    .block {
+        flex-direction: column;
+
+        button {
+            padding: 5px 10px;
+        }
+    }
+}
+
+@media(max-width: 420px) {
+    .block {
+        flex-direction: column;
+        gap: 10px;
+        // align-self: start;
+    }
+}
