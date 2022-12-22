@@ -10,12 +10,12 @@ import { PostInterface } from './types';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
+import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 import {
-    useLikePostMutation,
     useDeletePostMutation,
+    useLikePostMutation,
     useUnLikePostMutation,
 } from '../../redux/slices/posts/postsApi';
-import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const Post: React.FC<PostInterface> = ({ props }) => {

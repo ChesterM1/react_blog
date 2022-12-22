@@ -5,7 +5,7 @@ import NoLoginBlock from './NoLoginBlock/NoLoginBlock';
 import Authorized from './Authorized/Authorized';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { resetValue } from '../../redux/slices/getPostQuery/getPostQuerySlice';
-import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
+import { useGetPostsQuery } from '../../redux/slices/posts/baseApi';
 
 const Header: React.FC = () => {
     const auth = useAppSelector((state) => state.auth.isAuth);

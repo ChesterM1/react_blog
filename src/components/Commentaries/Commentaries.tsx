@@ -8,15 +8,21 @@ import { useState } from 'react';
 import { CommentariesProps } from './types';
 import moment from 'moment';
 import EditPost from '../Post/EditPost/EditPost';
+// import {
+//     useDislikeCommentMutation,
+//     useLikeCommentMutation,
+//     useRemoveDislikeCommentMutation,
+//     useRemoveLikeCommentMutation,
+// } from '../../redux/slices/posts/postsApi';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
 import {
     useDislikeCommentMutation,
     useLikeCommentMutation,
     useRemoveDislikeCommentMutation,
     useRemoveLikeCommentMutation,
-} from '../../redux/slices/posts/postsApi';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { toComment } from '../../redux/slices/scrollToComment/scrollToComment';
+} from '../../redux/slices/posts/commentApi';
 
 const Commentaries: React.FC<CommentariesProps> = ({ props, edit, redirect }) => {
     const [viewEditBorder, setViewEditBorder] = useState<boolean>(false);

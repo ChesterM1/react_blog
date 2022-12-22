@@ -1,4 +1,4 @@
-import { Post } from '../../redux/slices/posts/postTypes';
+import { Post } from '../../redux/slices/posts/Types';
 
 export interface PostInterface {
     props: Post;

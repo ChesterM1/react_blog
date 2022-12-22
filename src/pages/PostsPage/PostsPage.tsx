@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import Post from '../../components/Post/Post';
 import { useEffect } from 'react';
 import SkeletonPost from '../../components/Post/SkeletonPost';
-import { useGetPostsQuery } from '../../redux/slices/posts/postsApi';
+import { useGetPostsQuery } from '../../redux/slices/posts/baseApi';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { setPostCount } from '../../redux/slices/getPostQuery/getPostQuerySlice';
 import { useIsMobile } from '../../hooks/useIsMobile';
@@ -51,10 +51,10 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         document.addEventListener('scroll', scrollHandler);
-
         return () => document.removeEventListener('scroll', scrollHandler);
         // eslint-disable-next-line
     }, [isFetching]);
+
     if (isError) {
         return <Error404 />;
     }

@@ -1,4 +1,4 @@
-import { Like } from '../../../redux/slices/posts/postTypes';
+import { Like } from '../../../redux/slices/posts/Types';
 
 interface FetchProps {
     viewCount: number;

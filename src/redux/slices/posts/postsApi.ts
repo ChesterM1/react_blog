@@ -1,40 +1,15 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { axiosBaseQuery } from '../../../utils/axios/axiosBaseQuery';
 import store from '../../store';
+import { baseApi } from './baseApi';
 import {
-    AddCommentInterface,
-    CommentInterface,
-    editCommentPayload,
-    ReactionCommentPayload,
-} from './commentTypes';
-import {
-    CreatePostDataResponse,
-    LikePostAction,
     Post,
-    EditPostPayload,
+    LikePostAction,
     GetAllPostResponse,
-    getAllPostParams,
-    TagsResponse,
-} from './postTypes';
+    CreatePostDataResponse,
+    EditPostPayload,
+} from './Types';
 
-export const postsApi = createApi({
-    reducerPath: 'postsApi',
-    baseQuery: axiosBaseQuery(),
-    tagTypes: ['Posts', 'Comment'],
+const postsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        getPosts: builder.query<GetAllPostResponse, getAllPostParams>({
-            query: (queryParams) => ({
-                url: queryParams.popular === 0 ? `posts/last` : 'posts/popular',
-                params: {
-                    ...queryParams,
-                },
-            }),
-            providesTags: (result) =>
-                result?.data
-                    ? result?.data.map(({ _id }) => ({ type: 'Posts', id: _id }))
-                    : ['Posts'],
-        }),
-
         likePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
                 url: `posts/like`,
@@ -45,7 +20,7 @@ export const postsApi = createApi({
                 const { getPostCount, popularPost, activeTags } = store.getState().getPostQuery;
 
                 const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
+                    baseApi.util.updateQueryData(
                         'getPosts',
                         { limit: getPostCount, popular: popularPost, activeTags },
                         (draft: GetAllPostResponse) => {
@@ -61,7 +36,7 @@ export const postsApi = createApi({
                 );
 
                 const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                    baseApi.util.updateQueryData('getOnePost', postId, (draft) => {
                         if (!draft.like.isLiked) {
                             draft.like = { isLiked: true, likeCount: draft.like.likeCount + 1 };
                         }
@@ -74,6 +49,7 @@ export const postsApi = createApi({
                 }
             },
         }),
+
         unLikePost: builder.mutation<Post, LikePostAction>({
             query: ({ postId, userId }) => ({
                 url: `posts/unLike`,
@@ -83,7 +59,7 @@ export const postsApi = createApi({
             async onQueryStarted({ postId }, { queryFulfilled, dispatch }) {
                 const { getPostCount, popularPost, activeTags } = store.getState().getPostQuery;
                 const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
+                    baseApi.util.updateQueryData(
                         'getPosts',
                         { limit: getPostCount, popular: popularPost, activeTags },
                         (draft: GetAllPostResponse) => {
@@ -99,7 +75,7 @@ export const postsApi = createApi({
                 );
 
                 const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('getOnePost', postId, (draft) => {
+                    baseApi.util.updateQueryData('getOnePost', postId, (draft) => {
                         if (draft.like.isLiked) {
                             draft.like = { isLiked: false, likeCount: draft.like.likeCount - 1 };
                         }
@@ -112,6 +88,7 @@ export const postsApi = createApi({
                 }
             },
         }),
+
         createPost: builder.mutation<CreatePostDataResponse, FormData>({
             query: (formData) => ({
                 url: 'posts/',
@@ -120,6 +97,7 @@ export const postsApi = createApi({
             }),
             invalidatesTags: ['Posts'],
         }),
+
         deletePost: builder.mutation<Post, string>({
             query: (postId) => ({
                 url: `posts/${postId}`,
@@ -127,12 +105,7 @@ export const postsApi = createApi({
             }),
             invalidatesTags: ['Posts', 'Comment'],
         }),
-        getOnePost: builder.query<Post, string>({
-            query: (postId) => ({
-                url: `posts/${postId}`,
-            }),
-            providesTags: (result, err, id) => [{ type: 'Posts', id: id }],
-        }),
+
         editPost: builder.mutation<CreatePostDataResponse, EditPostPayload>({
             query: ({ formData, postId }) => ({
                 url: `posts/${postId}`,
@@ -141,240 +114,14 @@ export const postsApi = createApi({
             }),
             invalidatesTags: ['Posts'],
         }),
-        getTags: builder.query<TagsResponse[], number>({
-            query: (limit) => ({
-                url: 'tags',
-                params: {
-                    limit,
-                },
-            }),
-        }),
-        getComment: builder.query<CommentInterface[], string>({
-            query: (postId) => ({
-                url: `comment/${postId}`,
-            }),
-            providesTags: ['Comment'],
-        }),
-        addComment: builder.mutation<CommentInterface, AddCommentInterface>({
-            query: (params) => ({
-                url: 'comment',
-                method: 'POST',
-                data: { ...params },
-            }),
-
-            invalidatesTags: ['Comment'],
-        }),
-        removeComment: builder.mutation<void, { id: string; postId: string }>({
-            query: ({ id }) => ({
-                url: `comment/${id}`,
-                method: 'DELETE',
-            }),
-
-            invalidatesTags: ['Comment'],
-        }),
-
-        lastComment: builder.query<CommentInterface[], number>({
-            query: (limit) => ({
-                url: `comment`,
-                params: {
-                    limit,
-                },
-            }),
-            providesTags: ['Comment'],
-        }),
-
-        likeComment: builder.mutation<void, ReactionCommentPayload>({
-            query: (params) => ({
-                url: 'comment/like',
-                method: 'POST',
-                data: { ...params },
-            }),
-            async onQueryStarted({ commentId, postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getComment',
-                        postId,
-                        (draft: CommentInterface[]) => {
-                            const comment = draft.find((comment) => comment._id === commentId);
-                            if (comment) {
-                                comment.likedCount++;
-                                comment.dislikeCount = comment.IsDisliked
-                                    ? comment.dislikeCount - 1
-                                    : comment.dislikeCount;
-                                comment.isLiked = true;
-                                comment.IsDisliked = false;
-                            }
-                        }
-                    )
-                );
-
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('lastComment', 2, (draft) => {
-                        const comment = draft.find((comment) => comment._id === commentId);
-                        if (comment) {
-                            comment.likedCount++;
-                            comment.dislikeCount = comment.IsDisliked
-                                ? comment.dislikeCount - 1
-                                : comment.dislikeCount;
-                            comment.isLiked = true;
-                            comment.IsDisliked = false;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
-        }),
-
-        removeLikeComment: builder.mutation<void, ReactionCommentPayload>({
-            query: (params) => ({
-                url: 'comment/removelike',
-                method: 'POST',
-                data: { ...params },
-            }),
-            async onQueryStarted({ commentId, postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getComment',
-                        postId,
-                        (draft: CommentInterface[]) => {
-                            const comment = draft.find((comment) => comment._id === commentId);
-                            if (comment) {
-                                comment.isLiked = false;
-                                comment.likedCount--;
-                            }
-                        }
-                    )
-                );
-
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('lastComment', 2, (draft) => {
-                        const comment = draft.find((comment) => comment._id === commentId);
-                        if (comment) {
-                            comment.isLiked = false;
-                            comment.likedCount--;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
-        }),
-        dislikeComment: builder.mutation<void, ReactionCommentPayload>({
-            query: (params) => ({
-                url: 'comment/dislike',
-                method: 'POST',
-                data: { ...params },
-            }),
-            async onQueryStarted({ commentId, postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getComment',
-                        postId,
-                        (draft: CommentInterface[]) => {
-                            const comment = draft.find((comment) => comment._id === commentId);
-                            if (comment) {
-                                comment.dislikeCount++;
-                                comment.likedCount = comment.likedCount
-                                    ? comment.likedCount - 1
-                                    : comment.likedCount;
-                                comment.isLiked = false;
-                                comment.IsDisliked = true;
-                            }
-                        }
-                    )
-                );
-
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('lastComment', 2, (draft) => {
-                        const comment = draft.find((comment) => comment._id === commentId);
-                        if (comment) {
-                            comment.dislikeCount++;
-                            comment.likedCount = comment.likedCount
-                                ? comment.likedCount - 1
-                                : comment.likedCount;
-                            comment.isLiked = false;
-                            comment.IsDisliked = true;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
-        }),
-        removeDislikeComment: builder.mutation<void, ReactionCommentPayload>({
-            query: (params) => ({
-                url: 'comment/removedislike',
-                method: 'POST',
-                data: { ...params },
-            }),
-            async onQueryStarted({ commentId, postId }, { queryFulfilled, dispatch }) {
-                const patchResult = dispatch(
-                    postsApi.util.updateQueryData(
-                        'getComment',
-                        postId,
-                        (draft: CommentInterface[]) => {
-                            const comment = draft.find((comment) => comment._id === commentId);
-                            if (comment) {
-                                comment.IsDisliked = false;
-                                comment.dislikeCount--;
-                            }
-                        }
-                    )
-                );
-
-                const patchResultOne = dispatch(
-                    postsApi.util.updateQueryData('lastComment', 2, (draft) => {
-                        const comment = draft.find((comment) => comment._id === commentId);
-                        if (comment) {
-                            comment.IsDisliked = false;
-                            comment.dislikeCount--;
-                        }
-                    })
-                );
-                const response = await queryFulfilled;
-                if (response.meta) {
-                    patchResult.undo();
-                    patchResultOne.undo();
-                }
-            },
-        }),
-        editComment: builder.mutation<CommentInterface, editCommentPayload>({
-            query: (data) => ({
-                url: `comment`,
-                method: 'PATCH',
-                data,
-            }),
-            invalidatesTags: ['Comment'],
-        }),
     }),
 });
 
 export const {
-    useGetPostsQuery,
     useLikePostMutation,
     useUnLikePostMutation,
     useCreatePostMutation,
     useDeletePostMutation,
     useGetOnePostQuery,
     useEditPostMutation,
-    useGetTagsQuery,
-    useGetCommentQuery,
-    useAddCommentMutation,
-    useLastCommentQuery,
-    useRemoveCommentMutation,
-    useLikeCommentMutation,
-    useRemoveLikeCommentMutation,
-    useDislikeCommentMutation,
-    useRemoveDislikeCommentMutation,
-    useEditCommentMutation,
 } = postsApi;

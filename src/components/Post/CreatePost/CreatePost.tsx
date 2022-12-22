@@ -8,10 +8,10 @@ import { createPostSchemaValidate } from '../../../utils/validateSchema/validate
 import { YupErrorsResolve } from '../../../utils/validateSchema/type';
 import ValidateErrorMessage from '../../auth/ValidateErrorMessage/ValidateErrorMessage';
 import scrollTo from '../../../utils/scrollTo';
-import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
 import { PropsInterface } from './types';
 import { useAppSelector } from '../../../redux/store';
 import backAfterLogin from '../../../utils/backAfterLogin';
+import { useCreatePostMutation, useEditPostMutation } from '../../../redux/slices/posts/postsApi';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const CreatePost: React.FC<PropsInterface> = ({ title, text, imageUrl, tags }) => {

@@ -2,7 +2,7 @@ import styles from './tagsBar.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { setActiveTags } from '../../redux/slices/getPostQuery/getPostQuerySlice';
 import { useNavigate } from 'react-router';
-import { useGetTagsQuery } from '../../redux/slices/posts/postsApi';
+import { useGetTagsQuery } from '../../redux/slices/posts/baseApi';
 import TagsBarSkeleton from './TagsBarSkeleton';
 import { lazy, Suspense } from 'react';
 const TagError = lazy(() => import('../Error/RightBarError/RightBarError'));

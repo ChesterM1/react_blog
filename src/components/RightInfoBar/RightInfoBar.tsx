@@ -3,9 +3,10 @@ import { lazy, Suspense } from 'react';
 import Commentaries from '../Commentaries/Commentaries';
 import MiniPosts from '../Post/MiniPosts/MiniPosts';
 import TagsBar from '../TagsBar/TagsBar';
-import { useGetPostsQuery, useLastCommentQuery } from '../../redux/slices/posts/postsApi';
+import { useGetPostsQuery, useLastCommentQuery } from '../../redux/slices/posts/baseApi';
 import MiniPostSkeleton from '../Post/MiniPosts/miniPostSkeleton';
 import CommentariesSkeleton from '../Commentaries/CommentariesSkeleton';
+
 const RightBarError = lazy(() => import('../Error/RightBarError/RightBarError'));
 
 const RightInfoBar = () => {

@@ -5,15 +5,15 @@ import styles from './commentBlock.module.scss';
 import { commentSchemaValidate } from '../../utils/validateSchema/validateSchema';
 import { useAppSelector } from '../../redux/store';
 import { CommentBlockProp } from './types';
-import {
-    useAddCommentMutation,
-    useEditCommentMutation,
-    useGetCommentQuery,
-    useRemoveCommentMutation,
-} from '../../redux/slices/posts/postsApi';
 import CommentariesSkeleton from '../Commentaries/CommentariesSkeleton';
 import EmptyCommentaries from '../Commentaries/EmptyCommentaries/EmptyCommentaries';
 import scrollTo from '../../utils/scrollTo';
+import {
+    useAddCommentMutation,
+    useEditCommentMutation,
+    useRemoveCommentMutation,
+} from '../../redux/slices/posts/commentApi';
+import { useGetCommentQuery } from '../../redux/slices/posts/baseApi';
 const ErrorComment = lazy(() => import('../Error/RightBarError/RightBarError'));
 
 const CommentBlock: React.FC<CommentBlockProp> = ({ postId }) => {

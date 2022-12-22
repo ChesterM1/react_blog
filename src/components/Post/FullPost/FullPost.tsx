@@ -7,14 +7,14 @@ import User from '../../User/User';
 import PostBottomBar from '../PostBottomBar/PostBottomBar';
 import PostTagsBlock from '../PostTagsBlock/PostTagsBlock';
 import EditPost from '../EditPost/EditPost';
+import { PropsInterface } from './types';
+import moment from 'moment';
+import { useAppSelector } from '../../../redux/store';
 import {
     useDeletePostMutation,
     useLikePostMutation,
     useUnLikePostMutation,
 } from '../../../redux/slices/posts/postsApi';
-import { PropsInterface } from './types';
-import moment from 'moment';
-import { useAppSelector } from '../../../redux/store';
 const IMG_URL = process.env.REACT_APP_IMG_URL;
 
 const FullPost: React.FC<PropsInterface> = ({ post }) => {
