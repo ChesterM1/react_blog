@@ -7,7 +7,7 @@ import EditPostPage from './pages/EditPostPage/EditPostPage';
 import { getLocalStorage } from './utils/serviceLocalStorage';
 import { useAppDispatch } from './redux/store';
 import { authorization } from './redux/slices/auth/auth';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import Layout from './components/Layout/Layout';
 import PostsPage from './pages/PostsPage/PostsPage';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
@@ -23,7 +23,7 @@ function App() {
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         isAuthExist();
     }, []);
     return (

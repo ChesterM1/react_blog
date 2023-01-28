@@ -6,9 +6,11 @@ const axios = axiosLib.create({
     baseURL: URL,
 });
 
+const token = getLocalStorage('user')?.token ?? '';
+
 axios.interceptors.request.use((config: AxiosRequestConfig<AxiosRequestHeaders>) => {
     if (config.headers) {
-        config.headers.Authorization = getLocalStorage('user')?.token || '';
+        config.headers.Authorization = token;
     }
     return config;
 });

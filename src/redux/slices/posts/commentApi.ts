@@ -146,6 +146,7 @@ const commentApi = baseApi.injectEndpoints({
                         }
                     })
                 );
+
                 const response = await queryFulfilled;
                 if (response.meta) {
                     patchResult.undo();
